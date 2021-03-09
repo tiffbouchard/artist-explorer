@@ -15,19 +15,15 @@ var cookieParser = require('cookie-parser');
 const path = require('path');
 
 
-var client_id = 'c0e893b7f4634c8d908290aae5d9ea78'; // Your client id
-var client_secret = '18b53c3255bd4edd97c4db7e2dec464a'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
-
 /**
-* Generates a random string containing numbers and letters
-* @param  {number} length The length of the string
-* @return {string} The generated string
-*/
+ * Generates a random string containing numbers and letters
+ * @param  {number} length The length of the string
+ * @return {string} The generated string
+ */
 var generateRandomString = function(length) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
+  
   for (var i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -37,6 +33,11 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+require('dotenv').config();
+
+var client_id = process.env.CLIENT_ID; // Your client id
+var client_secret = process.env.CLIENT_SECRET; // Your secret\
+var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 app.use(express.static(path.join(__dirname, "client/build"))).use(cors()).use(cookieParser());
 
@@ -107,13 +108,13 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('http://localhost:3000/' +
+        res.redirect('http://localhost:3000/#' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
-        res.redirect('http://localhost:3000/' +
+        res.redirect('http://localhost:3000/#' +
           querystring.stringify({
             error: 'invalid_token'
           }));
