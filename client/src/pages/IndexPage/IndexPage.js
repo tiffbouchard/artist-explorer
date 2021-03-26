@@ -1,5 +1,6 @@
 import React from 'react';
-import {getHashParams} from "../../utils/paramsService"
+import {getHashParams} from "../../utils/paramsService";
+import { UserContext } from '../../context/userContext';
 
 import axios from "axios";
 
@@ -8,9 +9,7 @@ import axios from "axios";
 import "./IndexPage.scss";
 
 const IndexPage = () => {
-  const [artists, setArtists] = React.useState(null);
-
-  
+  const [artists, setArtists] = React.useState(null);  
   
   const getAccessToken = () => {
     const { access_token } = getHashParams();
@@ -34,7 +33,7 @@ const IndexPage = () => {
     getArtists();
   }, [])
 
-
+  
 
   return ( 
     <main>
@@ -49,8 +48,8 @@ const IndexPage = () => {
         </div>
         )}
       </div>
-    </main>
-   );
+    </main> 
+    );
 }
  
 export default IndexPage;

@@ -2,11 +2,12 @@ import './Button.scss'
 
 const Button = (props) => {
   return (
-    <a href={props.link}>
-      <button className="main-button" type="button">
+    <button className="main-button" type="button">
+      <img class="logo" src={props.logo}/>
+      <a href={props.link}>
         {props.label}
-      </button>
-    </a>
+      </a>
+    </button>
   )
 }
 
