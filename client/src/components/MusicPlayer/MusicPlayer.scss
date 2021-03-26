@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.player {
+    position: fixed;
+    bottom: 35px;
+    z-index: 100;
+    width: 95vw;
+    height: 80px;
+    background: rgba(58, 58, 58, 0.5);
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgb(0, 0, 0);
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+
+.player:hover {
+    background: rgba(31, 31, 31, 0.7);
+}
+
+.container .player .music-info {
+    height: 100%;
+    display: flex;
+    div {
+        padding: 10px 0px 10px 12px;
+        height: 60px;
+        img {
+            height: 100%;
+            border-radius: 10px;
+        }
+    }
+    .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        p {
+            margin: 0px;
+            color: white;
+        }
+    }
+}

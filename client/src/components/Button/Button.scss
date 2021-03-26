@@ -1,0 +1,10 @@
+@import '../../styles/_variables';
+
+a .main-button {
+    background-color: $spotifyGreen;
+    padding: $buttonPadding;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    margin: 10px;
+}
