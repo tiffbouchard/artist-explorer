@@ -1,13 +1,21 @@
+import React from 'react';
+import { UserContext } from '../../context/userContext';
+
 const Sidebar = () => {
-  return ( 
-    <div>
-      {/* search artist  */}
-      {/* top artists, all time, past week, past month */}
-      {/*  when you click on their card, it expands to see their details and related artists - if you click on another artist it will expand again */}
-      {/* Random Artist and related artists */}
-      {/*  */}
-    </div>
-   );
+  const { user } = React.useContext(UserContext);
+
+  return (
+    <header>
+      {user &&
+      <>
+      <p>{user.display_name}</p>
+      <p>{user.email}</p>
+      <p>{user.country}</p>
+      <img src={user.images && user.images[0].url}/>
+      </> 
+      }
+    </header>
+    );
 }
- 
+
 export default Sidebar;

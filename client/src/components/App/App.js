@@ -9,6 +9,7 @@ import {
 
 import UserProvider from "../../context/userContext";
 import Header from "../Header/Header"
+import Sidebar from '../Sidebar/Sidebar';
 import IndexPage from "../../pages/IndexPage/IndexPage"
 import './App.scss';
 
@@ -22,6 +23,7 @@ render() {
     return (
       <UserProvider>
         <Header {...this.props}/>
+        <Sidebar />
         <Switch>
           <Route 
             exactpath="/"

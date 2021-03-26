@@ -1,21 +1,27 @@
 import React from 'react';
 import { UserContext } from '../../context/userContext';
+import { logout } from '../../utils/spotifyService'
+
+import Button from "../Button/Button"
 
 const Header = () => {
   const { user } = React.useContext(UserContext);
+
+
+
+
+  // {user ? <a href="http://localhost:8888/login">Login</a> : <a href="http://localhost:8888/login">Logout</a> }
+  
   return (
     <header>
-        <a href="http://localhost:8888/login">Login</a>
-        {user &&
-        <>
-        <p>{user.display_name}</p>
-        <p>{user.email}</p>
-        <p>{user.country}</p>
-        <img src={user.images && user.images[0].url}/>
-        </> 
-        }
+      <Button 
+        // onClick={() => !user && logout}
+        link="http://localhost:8888/login"
+        label={user ? "Logout" : "Login"}
+      />
     </header>
     );
 }
  
 export default Header;
+
