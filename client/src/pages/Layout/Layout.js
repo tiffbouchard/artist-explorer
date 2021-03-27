@@ -14,6 +14,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Index from "../Index/Index";
 import TopArtists from "../TopArtists/TopArtists";
 import Following from "../Following/Following";
+import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
 import Footer from "../../components/Footer/Footer";
 
@@ -29,6 +30,8 @@ const Layout = (props) => {
     const [searchQuery, setSearchQuery] = React.useState();
     const [results, setResults] = React.useState();
     const [loading, setLoading] = React.useState();
+    const [searching, setSearching] = React.useState();
+
   
     const { history } = props;
 
@@ -36,6 +39,7 @@ const Layout = (props) => {
   
     const handleChange = async (event) => {
       setLoading(true);
+      setSearching(true);
       history.push(`/search`); 
       setSearchQuery(event.target.value);
       const searchResults = await getSearch(searchQuery);
@@ -46,6 +50,7 @@ const Layout = (props) => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       setLoading(true);
+      setSearching(true);
       history.push(`/search`); 
       const searchResults = await getSearch(searchQuery);
       setResults(searchResults.data.artists.items);
@@ -55,7 +60,9 @@ const Layout = (props) => {
     return (
       <>
       <div class="row">
-          <Sidebar/>
+          <Sidebar
+            searching={searching}
+          />
           <div className="main">
             <Header 
               handleChange={handleChange}
@@ -73,6 +80,10 @@ const Layout = (props) => {
                 <Route 
                   exact path="/following"
                   render={() => <Following/>}
+                /> 
+                <Route 
+                  exact path="/random"
+                  render={() => <Random/>}
                 /> 
                 <Route 
                 exact path="/search"

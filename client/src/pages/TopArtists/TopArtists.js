@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
+import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -15,6 +15,18 @@ const TopArtists = () => {
   
   const getArtists = async () => {
     const artists = await getTopArtistsLong();
+    setArtists(artists.data)
+  }
+  
+
+  const getSixMonths = async () => {
+    const artists = await getTopArtistsMedium();
+    setArtists(artists.data)
+  }
+  
+
+  const getFourWeeks = async () => {
+    const artists = await getTopArtistsShort();
     setArtists(artists.data)
   }
   
@@ -57,9 +69,9 @@ const TopArtists = () => {
       <div class="header">
         <h1>Top Artists</h1>
         <div>
-          <button>All Time</button>
-          <button>Last 6 Months</button>
-          <button>Last 4 Weeks</button>
+          <button onClick={getArtists}>All Time</button>
+          <button onClick={getSixMonths}>Last 6 Months</button>
+          <button onClick={getFourWeeks}>Last 4 Weeks</button>
         </div>
       </div>
       {relatedArtists && 
