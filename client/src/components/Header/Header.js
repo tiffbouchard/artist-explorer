@@ -5,12 +5,16 @@ import Search from '../Search/Search';
 
 import "./Header.scss";
 
-const Header = () => {
+const Header = (props) => {
   const { user } = React.useContext(UserContext);
+
 
   return (
     <header>
-      <Search/>
+      <Search
+        handleChange={props.handleChange}
+        handleSubmit={props.handleSubmit}
+      />
       <button onClick={logout}>
         Logout
       </button>

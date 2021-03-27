@@ -1,17 +1,36 @@
 import React from 'react';
 import { UserContext } from '../../context/userContext';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import './Sidebar.scss';
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const { user } = React.useContext(UserContext);
   
   const [selected, setSelected] = React.useState();
 
-  const toggleClass = (event) => {
-    setSelected(event.target.id)
+  const toggleClass = (category) => {
+    setSelected(category)
   }
+
+
+  const handleClick = (event) => {
+    toggleClass(event.target.id)
+  }
+
+
+  let location = useLocation();
+
+
+  const getPath = () => {
+    setSelected(location.pathname.replace("/", ""));
+  }
+
+
+  React.useEffect(() => {
+    getPath();
+  }, [])
+
 
 
   return (
@@ -26,17 +45,17 @@ const Sidebar = () => {
       </div> 
       }
       <ul class="side-nav">
-        <Link className="link" to="/recent">
-          <li className={selected == "recent" ? 'active' : null} onClick={toggleClass} id="recent">Recent</li>
-        </Link>
+        {/* <Link className="link" to="/recent">
+          <li className={selected == "recent" ? 'active' : null} onClick={handleClick} id="recent">Recent</li>
+        </Link> */}
         <Link className="link" to="/top">
-          <li className={selected == "top" ? 'active' : null}  onClick={toggleClass} id="top">Top Artists</li>
+          <li className={selected == "top" ? 'active' : null}  onClick={handleClick} id="top">Top Artists</li>
         </Link>
         <Link className="link" to="/random">
-          <li className={selected == "random" ? 'active' : null}  onClick={toggleClass} id="random">Random</li>
+          <li className={selected == "random" ? 'active' : null}  onClick={handleClick} id="random">Random</li>
         </Link>
         <Link className="link" to="/following">
-          <li className={selected == "following" ? 'active' : null}  onClick={toggleClass} id="following">Following</li>
+          <li className={selected == "following" ? 'active' : null}  onClick={handleClick} id="following">Following</li>
         </Link>
       </ul>
     </aside>

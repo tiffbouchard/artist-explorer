@@ -1,21 +1,22 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
+import { getFollowing, getArtist, getRelated } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
 
-import "./TopArtists.scss";
+// import "./TopArtists.scss";
 
-const TopArtists = () => {
+const Following = () => {
   const [artists, setArtists] = React.useState(null);  
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
 
   
-  const getArtists = async () => {
-    const artists = await getTopArtistsLong();
-    setArtists(artists.data)
+  const getFollowingArtists = async () => {
+    const artists = await getFollowing();
+    console.log(artists)
+    setArtists(artists.data.artists);
   }
   
 
@@ -42,7 +43,7 @@ const TopArtists = () => {
   }
 
   React.useEffect(() => {
-    getArtists();
+    getFollowingArtists();
   }, [])
 
   
@@ -54,13 +55,11 @@ const TopArtists = () => {
 
   return ( 
     <main class="content">
-      <h1>Top Artists</h1>
-      {relatedArtists && 
-        <InfoCard 
+      <h1>Following</h1>
+      {relatedArtists && <InfoCard 
           artists={relatedArtists} 
           currentArtist={singleArtist} 
-          handleClick={handleClick} 
-        />}
+          handleClick={handleClick} />}
       <div className="card-container">
       {artists && artists.items.map((a) => 
           <Card 
@@ -76,4 +75,4 @@ const TopArtists = () => {
     );
 }
  
-export default TopArtists;
+export default Following;

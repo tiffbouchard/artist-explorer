@@ -39,7 +39,7 @@ export const getAccessToken = () => {
   // If token has expired
   if (Date.now() - getTokenTimestamp() > EXPIRATION_TIME) {
     console.warn('Access token has expired, refreshing...');
-    refreshAccessToken();
+    refreshAccessToken(); 
   }
 
   const localAccessToken = getLocalAccessToken();
@@ -75,6 +75,10 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+export const getSearch = searchQuery =>
+  axios.get(`https://api.spotify.com/v1/search?q=${searchQuery}&type=artist&limit=40`, { headers });
+
+
 /**
  * Get Current User's Profile
  * https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/
@@ -86,7 +90,7 @@ export const getUser = () => axios.get('https://api.spotify.com/v1/me', { header
  * https://developer.spotify.com/documentation/web-api/reference/follow/get-followed/
  */
 export const getFollowing = () =>
-  axios.get('https://api.spotify.com/v1/me/following?type=artist', { headers });
+  axios.get('https://api.spotify.com/v1/me/following?type=artist&limit=50', { headers });
 
 /**
  * Get Current User's Recently Played Tracks

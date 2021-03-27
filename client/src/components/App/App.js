@@ -8,10 +8,10 @@ import { UserContext } from '../../context/userContext';
 import { token } from "../../utils/spotifyService";
 
 
-const App = () => {  
+const App = (props) => {  
   return (
     <>
-    {token ? <Layout/> : <LoginPage/> }
+    {token ? <Layout /> : <LoginPage/> }
     </>
   );
 }

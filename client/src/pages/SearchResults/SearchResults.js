@@ -1,23 +1,17 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
+import { getSearch, getArtist, getRelated } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
 
-import "./TopArtists.scss";
+// import "./TopArtists.scss";
 
-const TopArtists = () => {
-  const [artists, setArtists] = React.useState(null);  
+const SearchResults = (props) => {
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
 
-  
-  const getArtists = async () => {
-    const artists = await getTopArtistsLong();
-    setArtists(artists.data)
-  }
-  
+
 
   const getSingleArtist = async (artistId) => {
     const singleArtist = await getArtist(artistId);
@@ -41,20 +35,17 @@ const TopArtists = () => {
     });
   }
 
-  React.useEffect(() => {
-    getArtists();
-  }, [])
-
+  const { results, searchQuery } = props;
   
-  if (!artists) {
+  if (!results) {
     return (
       <Loader />
-    )
-  }
-
-  return ( 
+      )
+    }
+    
+    return ( 
     <main class="content">
-      <h1>Top Artists</h1>
+      <h1>Search Results for {searchQuery}</h1>
       {relatedArtists && 
         <InfoCard 
           artists={relatedArtists} 
@@ -62,11 +53,11 @@ const TopArtists = () => {
           handleClick={handleClick} 
         />}
       <div className="card-container">
-      {artists && artists.items.map((a) => 
+      {results && results.map((a) => 
           <Card 
             id={a.id}
             handleClick={handleClick} 
-            image={a.images[0].url} 
+            image={a.images[0] ? a.images[0].url : null} 
             name={a.name}
           />
         )}
@@ -76,4 +67,4 @@ const TopArtists = () => {
     );
 }
  
-export default TopArtists;
+export default SearchResults;

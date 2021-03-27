@@ -11,17 +11,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    a {
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+
+    }
 }
 
 .main-button:hover {
     background-color: rgb(29, 29, 29);
 }
 
-a {
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
-}
 
 .logo {
     height: 100%;
