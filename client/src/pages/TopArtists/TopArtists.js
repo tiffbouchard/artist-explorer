@@ -54,7 +54,14 @@ const TopArtists = () => {
 
   return ( 
     <main class="content">
-      <h1>Top Artists</h1>
+      <div class="header">
+        <h1>Top Artists</h1>
+        <div>
+          <button>All Time</button>
+          <button>Last 6 Months</button>
+          <button>Last 4 Weeks</button>
+        </div>
+      </div>
       {relatedArtists && 
         <InfoCard 
           artists={relatedArtists} 

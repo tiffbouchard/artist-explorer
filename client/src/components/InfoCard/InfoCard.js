@@ -4,16 +4,23 @@ import './InfoCard.scss';
 import { getArtist, getRelated } from "../../utils/spotifyService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-
+import logo from "../../images/Spotify_Icon_RGB_Green.png";
 
 const InfoCard = (props) => {
   const {artists, currentArtist, handleClick} = props;
+
+
+  if (!currentArtist) {
+    return (
+      <Loader/>
+    )
+  }
 
   return (
     <div class="info-card">
       <div className="current-artist">
         <div className="thumbnail">
-          <img src={currentArtist.images[0].url}/>
+          <img src={currentArtist.images.length ? currentArtist.images[0].url : logo} />
         </div>
         <div class="about">
           <h2>{currentArtist.name} 
@@ -27,10 +34,10 @@ const InfoCard = (props) => {
         </div>
       </div>
       <div class="related">
-        {artists.map((artist) => 
+        {artists && artists.map((artist) => 
           <div class="artist" onClick={handleClick}>
             <div class="thumbnail">
-              <img src={artist.images[0].url} id={artist.id}/>
+              <img src={artist.images.length ? artist.images[0].url : logo} id={artist.id}/>
             </div>
             <small>{artist.name}</small>
           </div>

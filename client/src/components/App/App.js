@@ -11,7 +11,7 @@ import { token } from "../../utils/spotifyService";
 const App = (props) => {  
   return (
     <>
-    {token ? <Layout /> : <LoginPage/> }
+    {token ? <Layout {...props}/> : <LoginPage/> }
     </>
   );
 }

@@ -1,12 +1,25 @@
 input {
-    width: 65%;
+    width: 90%;
     // border: 0.2px solid rgb(209, 209, 209);
     border: none;
     padding: 10px;
     border-radius: 5px;
-    
+    height: 30px;
+    font-size: 15px;
+}
+
+input:focus {
+    outline: none;
 }
 
 form {
-    width: 100%;
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    padding-left: 10px;
+    color: rgb(37, 37, 37);
+}
+
+.formactive {
+    border: solid 2px black;
 }

@@ -1,13 +1,18 @@
 import React from 'react';
 import { getSearch } from "../../utils/spotifyService";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 
 import "./Search.scss";
 
 const Search = (props) => {
-  // const [searchQuery, setSearchQuery] = React.useState();
-  // const [results, setResults] = React.useState();
+  // const [focus, setFocus] = React.useState(false);
+  // // const [results, setResults] = React.useState();
 
+  // const focusForm = () => {
+  //   setFocus(!focus)
+  // }
 
 
   // const handleChange = (event) => {
@@ -25,6 +30,7 @@ const Search = (props) => {
 
   return (
     <form onSubmit={props.handleSubmit}>
+      <FontAwesomeIcon icon={faSearch} />
       <input placeholder="Search" onChange={props.handleChange} value={props.searchQuery}/>
     </form>
     );

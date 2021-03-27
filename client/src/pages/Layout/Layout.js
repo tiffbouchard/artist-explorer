@@ -28,19 +28,28 @@ const Layout = (props) => {
 
     const [searchQuery, setSearchQuery] = React.useState();
     const [results, setResults] = React.useState();
+    const [loading, setLoading] = React.useState();
+  
+    const { history } = props;
+
   
   
-  
-    const handleChange = (event) => {
-      console.log(event.target.value);
+    const handleChange = async (event) => {
+      setLoading(true);
+      history.push(`/search`); 
       setSearchQuery(event.target.value);
+      const searchResults = await getSearch(searchQuery);
+      setResults(searchResults.data.artists.items);
+      setLoading(false);
     }
   
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setLoading(true);
+      history.push(`/search`); 
       const searchResults = await getSearch(searchQuery);
       setResults(searchResults.data.artists.items);
-      console.log(searchResults);
+      setLoading(false);
     }
 
     return (
@@ -69,6 +78,7 @@ const Layout = (props) => {
                 exact path="/search"
                 render={() => 
                 <SearchResults
+                  loading={loading}
                   results={results}
                   searchQuery={searchQuery}
                 />}

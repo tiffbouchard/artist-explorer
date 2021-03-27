@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserContext } from '../../context/userContext';
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../images/Spotify_Icon_RGB_Green.png";
 
 import './Sidebar.scss';
 
@@ -38,10 +39,10 @@ const Sidebar = (props) => {
       {user &&
       <div class="user-info">
         <div class="thumbnail">
-          <img src={user.images && user.images[0].url}/>
+          <Link to="/">
+            <img src={logo}/>
+          </Link>
         </div>
-        <p class="primary-text">{user.display_name}</p>
-        <p class="secondary-text">{user.email}</p>
       </div> 
       }
       <ul class="side-nav">

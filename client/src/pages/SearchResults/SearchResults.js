@@ -35,14 +35,22 @@ const SearchResults = (props) => {
     });
   }
 
-  const { results, searchQuery } = props;
+  const { loading, results, searchQuery } = props;
   
-  if (!results) {
+  if (loading) {
     return (
       <Loader />
       )
     }
     
+    else if (results.length === 0) {
+      return (
+        <main class="content">
+          <h1>No results for {searchQuery}</h1>
+        </main>
+      )
+    }
+
     return ( 
     <main class="content">
       <h1>Search Results for {searchQuery}</h1>
