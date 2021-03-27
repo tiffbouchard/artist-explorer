@@ -1,10 +1,9 @@
 import React from 'react';
-import { UserContext } from '../../context/userContext';
 import Loader from "../../components/Loader/Loader";
-import axios from "axios";
 import { getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
+import Card from "../../components/Card/Card"
 
 import "./TopArtists.scss";
 
@@ -33,6 +32,7 @@ const TopArtists = () => {
   
   const handleClick = (event) => {
     event.stopPropagation();
+    console.log(event.target)
     getRelatedArtists(event.target.id);
     getSingleArtist(event.target.id)
   }
@@ -40,9 +40,6 @@ const TopArtists = () => {
   React.useEffect(() => {
     getArtists();
   }, [])
-
-
-
 
   
   if (!artists) {
@@ -57,14 +54,12 @@ const TopArtists = () => {
       {relatedArtists && <InfoCard artists={relatedArtists} currentArtist={singleArtist}/>}
       <div className="card-container">
       {artists && artists.items.map((a) => 
-          <div>
-            <div class="card" key={a.id} onClick={handleClick}>
-                <div class="img-container">
-                  <img src={a.images[1].url} id={a.id}/>
-                </div>
-                <div className="name">{a.name}</div>
-            </div>
-          </div>
+          <Card 
+            id={a.id}
+            handleClick={handleClick} 
+            image={a.images[1].url} 
+            name={a.name}
+          />
         )}
         
       </div>

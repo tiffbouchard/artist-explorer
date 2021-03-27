@@ -1,11 +1,47 @@
+.related {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin: 0px 20px;
+}
+
+.current-artist {
+    display: flex;
+    align-items: center;
+    margin: 10px 20px 40px 20px;
+    .thumbnail {
+        height: 150px;
+        width: 150px;
+        min-height: 150px;
+        min-width: 150px;
+    }
+    .about {
+        margin-left: 20px;
+        h2 {
+            margin-bottom: 2px;
+        }
+        .stats {
+            margin-left: 4px;
+        }
+        .tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            small {
+                background: rgb(245, 245, 245);
+                margin: 0 5px 5px 0;
+                padding: 5px 10px;
+                border-radius: 10px;
+            }
+        }
+    }
+}
+
 .info-card {
     margin-bottom: 40px;
     padding: 10px 0px;
     background-color: rgb(230, 230, 230);
     border-radius: 15px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 20px;
     width: 100%;
 }
 
