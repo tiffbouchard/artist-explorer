@@ -65,7 +65,7 @@ export const logout = () => {
   window.localStorage.removeItem('spotify_token_timestamp');
   window.localStorage.removeItem('spotify_access_token');
   window.localStorage.removeItem('spotify_refresh_token');
-  window.location.reload();
+  window.location.replace("http://localhost:3000");
 };
 
 // API CALLS ***************************************************************************************
@@ -135,6 +135,14 @@ export const getTopTracksLong = () =>
  */
 export const getArtist = artistId =>
   axios.get(`https://api.spotify.com/v1/artists/${artistId}`, { headers });
+
+
+export const getRelated= artistId =>
+  axios.get(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, { headers });
+
+
+
+
 
 /**
  * Follow an Artist

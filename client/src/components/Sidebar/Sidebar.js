@@ -6,6 +6,13 @@ import './Sidebar.scss';
 
 const Sidebar = () => {
   const { user } = React.useContext(UserContext);
+  
+  const [selected, setSelected] = React.useState();
+
+  const toggleClass = (event) => {
+    setSelected(event.target.id)
+  }
+
 
   return (
     <aside>
@@ -19,17 +26,17 @@ const Sidebar = () => {
       </div> 
       }
       <ul class="side-nav">
-        <Link className="link" to="">
-          <li>Recent</li>
+        <Link className="link" to="/recent">
+          <li className={selected == "recent" ? 'active' : null} onClick={toggleClass} id="recent">Recent</li>
         </Link>
-        <Link className="link" to="">
-          <li>Top Artists</li>
+        <Link className="link" to="/top">
+          <li className={selected == "top" ? 'active' : null}  onClick={toggleClass} id="top">Top Artists</li>
         </Link>
-        <Link className="link" to="">
-          <li>Random</li>
+        <Link className="link" to="/random">
+          <li className={selected == "random" ? 'active' : null}  onClick={toggleClass} id="random">Random</li>
         </Link>
-        <Link className="link" to="">
-          <li>Following</li>
+        <Link className="link" to="/following">
+          <li className={selected == "following" ? 'active' : null}  onClick={toggleClass} id="following">Following</li>
         </Link>
       </ul>
     </aside>
@@ -37,3 +44,4 @@ const Sidebar = () => {
 }
 
 export default Sidebar;
+

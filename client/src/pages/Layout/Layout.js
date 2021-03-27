@@ -4,7 +4,6 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { Bars } from 'svg-loaders-react';
 import { token } from "../../utils/spotifyService";
 
 // import axios from "axios";
@@ -12,23 +11,19 @@ import { token } from "../../utils/spotifyService";
 import Header from "../../components/Header/Header";
 import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
 import Sidebar from '../../components/Sidebar/Sidebar';
-import IndexPage from "../IndexPage/IndexPage"
+import Index from "../Index/Index";
+import TopArtists from "../TopArtists/TopArtists";
+
+
 import './Layout.scss';
 
 import { UserContext } from '../../context/userContext';
 
 
 
-const App = () => {
-  const user = React.useContext(UserContext);
-  console.log(user)
+const Layout = () => {
+    const user = React.useContext(UserContext);
 
-  if (!{token}) {
-    return (
-      <Bars fill="green" />
-    )
-  }
-  else {
     return (
       <>
       <div class="row">
@@ -37,8 +32,12 @@ const App = () => {
             <Header />
               <Switch>
                 <Route 
-                  exactpath="/"
-                  render={() => <IndexPage/>}
+                  exact path="/"
+                  render={() => <Index/>}
+                /> 
+                <Route 
+                  exact path="/top"
+                  render={() => <TopArtists/>}
                 /> 
               </Switch>
           </div>
@@ -46,8 +45,6 @@ const App = () => {
       <MusicPlayer />
       </>
     );
-
-  }
 }
 
-export default App;
+export default Layout;

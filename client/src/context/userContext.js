@@ -2,7 +2,8 @@ import React from "react";
 
 import axios from "axios";
 
-import {getHashParams} from "../utils/paramsService"
+import {getHashParams} from "../utils/paramsService";
+import { getUser ,token } from "../utils/spotifyService";
 
 const UserContext = React.createContext();
 
@@ -15,21 +16,9 @@ class UserProvider extends React.Component {
     this.getUser();
   }
   
-  getAccessToken = () => {
-    const { access_token } = getHashParams();
-    return access_token
-  }
 
   getUser = async () => {
-    const token = this.getAccessToken();
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
-    
-    const user = await axios.get('https://api.spotify.com/v1/me', { headers });
-
+    const user = await getUser();
     this.setState({user: user.data})
   }
   

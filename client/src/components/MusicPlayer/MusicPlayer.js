@@ -1,6 +1,9 @@
 import React from 'react';
 import { UserContext } from '../../context/userContext';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+
 
 import './MusicPlayer.scss';
 
@@ -19,6 +22,8 @@ const MusicPlayer = () => {
             <p class="secondary-text">Doja Cat</p>
           </div>
         </div>
+        <FontAwesomeIcon icon={library} />
+
       </div>
     </div>
     );
