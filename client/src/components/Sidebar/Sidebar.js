@@ -37,15 +37,15 @@ const Sidebar = (props) => {
   return (
     <aside>
       {user &&
-      <div class="user-info">
-        <div class="thumbnail">
+      <div className="user-info">
+        <div className="thumbnail">
           <Link to="/">
             <img src={logo}/>
           </Link>
         </div>
       </div> 
       }
-      <ul class="side-nav">
+      <ul className="side-nav">
         {/* <Link className="link" to="/recent">
           <li className={selected == "recent" ? 'active' : null} onClick={handleClick} id="recent">Recent</li>
         </Link> */}

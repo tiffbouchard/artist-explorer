@@ -54,7 +54,7 @@ const Following = () => {
   }
 
   return ( 
-    <main class="content">
+    <main className="content">
       <h1>Following</h1>
       {relatedArtists && <InfoCard 
           artists={relatedArtists} 

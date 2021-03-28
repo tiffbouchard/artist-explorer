@@ -65,8 +65,8 @@ const TopArtists = () => {
   }
 
   return ( 
-    <main class="content">
-      <div class="header">
+    <main className="content">
+      <div className="header">
         <h1>Top Artists</h1>
         <div>
           <button onClick={getArtists}>All Time</button>

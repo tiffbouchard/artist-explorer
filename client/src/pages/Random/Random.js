@@ -1,13 +1,10 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
 import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser} from "../../utils/spotifyService";
-import { UserContext } from '../../context/userContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSync, fa } from '@fortawesome/free-solid-svg-icons'
+import { faSync } from '@fortawesome/free-solid-svg-icons'
 
-import InfoCard from "../../components/InfoCard/InfoCard";
-import Card from "../../components/Card/Card"
 
 import "./Random.scss";
 
@@ -91,7 +88,7 @@ const Random = () => {
   }
 
   return ( 
-    <main class="random">
+    <main className="random">
       {/* {relatedArtists && 
         <InfoCard 
         artists={relatedArtists} 
@@ -102,18 +99,18 @@ const Random = () => {
 
 
       <div>
-        <div class="row randomrow">
+        <div className="row randomrow">
           <div className="image">
             <img src={randomArtist.artist.images[0].url}/>
           </div>
-          <div class="artistinfo">
-            <div class="row artist-header">
+          <div className="artistinfo">
+            <div className="row artist-header">
               <h1>{randomArtist.artist.name}</h1>
               <button onClick={getRandomArtist}>
                 <FontAwesomeIcon spin={loading} icon={ faSync } />
               </button>
             </div>
-            <div class="moreinfo">
+            <div className="moreinfo">
               <small>{randomArtist.artist.followers.total} followers</small>
               {/* <a href={randomArtist.artist.external_urls.spotify}>Open in Spotify</a> */}
               <div className="tags">
@@ -125,7 +122,7 @@ const Random = () => {
 
         </div>
 
-        <div class="info">
+        <div className="info">
           <h2>Top Tracks</h2>
           <div className="related m-0">
             {randomArtist.topTracks.tracks.map((track) => 
@@ -135,7 +132,7 @@ const Random = () => {
                     <source src={track.preview_url} type=""/>
                   </audio>
                 }
-                <div class="album-thumbnail">
+                <div className="album-thumbnail">
                   <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={playMusic}/>
                 </div>
               </div>
@@ -145,7 +142,7 @@ const Random = () => {
           <div className="related m-0">
             {randomArtist.related.artists.map((a) => 
               <div>
-                <div class="thumbnail">
+                <div className="thumbnail">
                   <img src={a.images[0].url}/>
                 </div>
                 <p>{a.name}</p>

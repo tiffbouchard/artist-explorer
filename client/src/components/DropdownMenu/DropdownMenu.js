@@ -9,7 +9,7 @@ const Dropdown = (props) => {
 
   
   return (
-    <div class={props.show ? "dropdown activemenu" : "dropdown"}>
+    <div className={props.show ? "dropdown activemenu" : "dropdown"}>
       <small>{user.display_name}</small>
       <small>{user.email}</small>
       <button onClick={logout}>

@@ -4,9 +4,6 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { token } from "../../utils/spotifyService";
-
-// import axios from "axios";
 
 import Header from "../../components/Header/Header";
 import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
@@ -16,7 +13,6 @@ import TopArtists from "../TopArtists/TopArtists";
 import Following from "../Following/Following";
 import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
-import Footer from "../../components/Footer/Footer";
 
 import { getSearch } from "../../utils/spotifyService";
 
@@ -59,7 +55,7 @@ const Layout = (props) => {
 
     return (
       <>
-      <div class="row">
+      <div className="row">
           <Sidebar
             searching={searching}
           />

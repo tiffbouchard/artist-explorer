@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getSearch, getArtist, getRelated } from "../../utils/spotifyService";
+import { getArtist, getRelated } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -45,14 +45,14 @@ const SearchResults = (props) => {
     
     else if (results && results.length === 0) {
       return (
-        <main class="content">
+        <main className="content">
           <h1>No results for {searchQuery}</h1>
         </main>
       )
     }
 
     return ( 
-    <main class="content">
+    <main className="content">
       <h1>Search Results for {searchQuery}</h1>
       {relatedArtists && 
         <InfoCard 

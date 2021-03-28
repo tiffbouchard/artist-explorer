@@ -7,7 +7,7 @@ import './LoginPage.scss';
 const LoginPage = () => {
 
   return (
-    <main class="login">
+    <main className="login">
       <h1>Artist Explorer</h1>
       <Button logo={logo} link="http://localhost:8888/login" label="Login with Spotify" />
     </main>
