@@ -5,7 +5,6 @@
         "client": "cd client && yarn start",
         "server": "nodemon server.js",
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-        "build": "\"cd client && npm run build\" \"yarn server\""
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.35",
