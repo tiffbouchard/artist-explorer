@@ -65,7 +65,11 @@ export const logout = () => {
   window.localStorage.removeItem('spotify_token_timestamp');
   window.localStorage.removeItem('spotify_access_token');
   window.localStorage.removeItem('spotify_refresh_token');
-  window.location.replace("http://localhost:3000");
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    window.location.replace("http://localhost:3000");
+  } else {
+    window.location.replace("http://artist-explorer.herokuapp.com");
+  }
 };
 
 // API CALLS ***************************************************************************************

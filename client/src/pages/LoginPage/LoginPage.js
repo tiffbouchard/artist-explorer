@@ -6,10 +6,14 @@ import './LoginPage.scss';
 
 const LoginPage = () => {
 
+
+
+  
+
   return (
     <main className="login">
       <h1>Artist Explorer</h1>
-      <Button logo={logo} link="http://localhost:8888/login" label="Login with Spotify" />
+      <Button logo={logo} link={!process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? "http://localhost:8888/login" : "http://artist-explorer.herokuapp.com/login"} label="Login with Spotify" />
     </main>
     );
 }

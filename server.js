@@ -37,7 +37,13 @@ require('dotenv').config();
 
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret\
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+
+if (process.env.NODE_ENV === 'production') {
+  var redirect_uri = 'http://artist-explorer.herokuapp.com/callback'; // Your redirect uri
+} else {
+  var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+}
+
 
 app.use(express.static(path.join(__dirname, "client/build"))).use(cors()).use(cookieParser());
 
@@ -108,13 +114,16 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('http://localhost:3000/#' +
+
+        var url = process.env.NODE_ENV === "production" ? "http://artist-explorer.herokuapp.com/#" : "http://localhost:3000/#";
+
+        res.redirect(url +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
-        res.redirect('http://localhost:3000/#' +
+        res.redirect(url +
           querystring.stringify({
             error: 'invalid_token'
           }));
