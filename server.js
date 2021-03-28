@@ -158,11 +158,12 @@ app.get('/refresh_token', function(req, res) {
 });
 
 
+const PORT = process.env.PORT || 8888;
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function (request, response) {
   response.sendFile(path.resolve(__dirname, 'client/public', 'index.html'));
 });
 
 
-console.log('Listening on 8888');
-app.listen(8888);
+console.log(`Listening on ${PORT}`);
+app.listen(PORT);
