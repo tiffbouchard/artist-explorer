@@ -17,6 +17,7 @@ const Random = () => {
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
+  const [play, setPlay] = React.useState(false);  
   
 
   const getSeeds = async () => {
@@ -29,7 +30,7 @@ const Random = () => {
 
     while (i < 4) {
       randomIdx = Math.floor(Math.random() * (max - min + 1)) + min;
-      if (artistsList.data.items[randomIdx].id) {
+      if (artistsList.data.items[randomIdx]) {
         randArtistList.push(artistsList.data.items[randomIdx].id)
       } else {
         continue
@@ -73,6 +74,9 @@ const Random = () => {
     });
   }
 
+  const playMusic = () => {
+    setPlay(!play);
+  }
 
 
   React.useEffect(() => {
@@ -88,48 +92,69 @@ const Random = () => {
 
   return ( 
     <main class="random">
-      <div class="artistheader">
-        <h1>{randomArtist.artist.name}</h1>
-        <button onClick={getRandomArtist}>
-          <FontAwesomeIcon spin={loading} icon={ faSync } />
-        </button>
-      </div>
-
       {/* {relatedArtists && 
         <InfoCard 
-          artists={relatedArtists} 
-          currentArtist={singleArtist} 
-          handleClick={handleClick} 
-        />} */}
+        artists={relatedArtists} 
+        currentArtist={singleArtist} 
+        handleClick={handleClick} 
+      />} */}
+
+
+
       <div>
-      <small>{randomArtist.artist.followers.total} followers</small>
-      <div className="image">
-        <img src={randomArtist.artist.images[0].url}/>
-      </div>
-
-      {randomArtist.artist.external_urls.spotify}
-      {randomArtist.artist.genres}
+        <div class="row randomrow">
+          <div className="image">
+            <img src={randomArtist.artist.images[0].url}/>
+          </div>
+          <div class="artistinfo">
+            <div class="row artist-header">
+              <h1>{randomArtist.artist.name}</h1>
+              <button onClick={getRandomArtist}>
+                <FontAwesomeIcon spin={loading} icon={ faSync } />
+              </button>
+            </div>
+            <div class="moreinfo">
+              <small>{randomArtist.artist.followers.total} followers</small>
+              {/* <a href={randomArtist.artist.external_urls.spotify}>Open in Spotify</a> */}
+              <div className="tags">
+                {randomArtist.artist.genres.map((genre) => <small>{genre}</small>)}
+              </div>
+            </div>
       
-      {randomArtist.related.artists.map((a) => 
-        <div>
-          <p>{a.name}</p>
-          <div class="thumbnail">
-            <img src={a.images[0].url}/>
+          </div>
+
+        </div>
+
+        <div class="info">
+          <h2>Top Tracks</h2>
+          <div className="related m-0">
+            {randomArtist.topTracks.tracks.map((track) => 
+              <div>
+                {track.is_playable && 
+                  <audio autoPlay={play}>
+                    <source src={track.preview_url} type=""/>
+                  </audio>
+                }
+                <div class="album-thumbnail">
+                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={playMusic}/>
+                </div>
+              </div>
+            )}
+          </div>
+          <h2>Related Artists</h2>
+          <div className="related m-0">
+            {randomArtist.related.artists.map((a) => 
+              <div>
+                <div class="thumbnail">
+                  <img src={a.images[0].url}/>
+                </div>
+                <p>{a.name}</p>
+              </div>
+            )}
           </div>
         </div>
-      )}
 
 
-      {randomArtist.topTracks.tracks.map((track) => 
-        <div>
-          <p>{track.name}</p>
-          <div class="album-thumbnail">
-            <img src={track.album.images[0].url}/>
-          </div>
-        </div>
-      )}
-        
-        
       </div>
     </main> 
     );

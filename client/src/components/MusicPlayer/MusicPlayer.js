@@ -17,7 +17,7 @@ const MusicPlayer = () => {
           <div>
             <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/Doja_Cat_-_Hot_Pink.png/220px-Doja_Cat_-_Hot_Pink.png"/>
           </div>
-          <div class="info">
+          <div class="trackinfo">
             <p>Say So</p>
             <p class="secondary-text">Doja Cat</p>
           </div>
