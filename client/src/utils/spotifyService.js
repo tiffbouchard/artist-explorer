@@ -133,6 +133,10 @@ export const getRelated= artistId =>
   axios.get(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, { headers });
 
 
+const getArtistTopTracks= (artistId, market) =>
+  axios.get(` https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=${market}`, { headers });
+
+
 
 
 
@@ -265,5 +269,20 @@ export const getTrackInfo = trackId =>
         track: track.data,
         audioAnalysis: audioAnalysis.data,
         audioFeatures: audioFeatures.data,
+      })),
+    );
+    
+
+
+
+    
+export const getAllArtistInfo = (artistId, market) =>
+  axios
+    .all([getArtist(artistId), getRelated(artistId), getArtistTopTracks(artistId, market)])
+    .then(
+      axios.spread((artist, related, topTracks) => ({
+        artist: artist.data,
+        related: related.data,
+        topTracks: topTracks.data,
       })),
     );

@@ -1,6 +1,8 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist } from "../../utils/spotifyService";
+import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser} from "../../utils/spotifyService";
+import { UserContext } from '../../context/userContext';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, fa } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,8 +17,8 @@ const Random = () => {
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
-
   
+
   const getSeeds = async () => {
     const artistsList = await getTopArtistsShort();
     const max = artistsList.data.items.length;
@@ -42,9 +44,9 @@ const Random = () => {
     setLoading(true);
     const seeds = await getSeeds();
     const randomArtist = await getRecommendationsForArtist(seeds);
-    const artistDetails = await getArtist(randomArtist.data.tracks[0].artists[0].id);
-    setRandomArtist(artistDetails.data);
-    getRelatedArtists(randomArtist.id);
+    const user = await getUser();
+    const artistDetails = await getAllArtistInfo(randomArtist.data.tracks[0].artists[0].id, user.data.country)
+    setRandomArtist(artistDetails);
     setLoading(false);
   }
   
@@ -87,23 +89,46 @@ const Random = () => {
   return ( 
     <main class="random">
       <div class="artistheader">
-        <h1>{randomArtist.name}</h1>
+        <h1>{randomArtist.artist.name}</h1>
         <button onClick={getRandomArtist}>
           <FontAwesomeIcon spin={loading} icon={ faSync } />
         </button>
       </div>
 
-      {relatedArtists && 
+      {/* {relatedArtists && 
         <InfoCard 
           artists={relatedArtists} 
           currentArtist={singleArtist} 
           handleClick={handleClick} 
-        />}
+        />} */}
       <div>
-      <small>{randomArtist.followers.total} followers</small>
+      <small>{randomArtist.artist.followers.total} followers</small>
       <div className="image">
-        <img src={randomArtist.images[0].url}/>
+        <img src={randomArtist.artist.images[0].url}/>
       </div>
+
+      {randomArtist.artist.external_urls.spotify}
+      {randomArtist.artist.genres}
+      
+      {randomArtist.related.artists.map((a) => 
+        <div>
+          <p>{a.name}</p>
+          <div class="thumbnail">
+            <img src={a.images[0].url}/>
+          </div>
+        </div>
+      )}
+
+
+      {randomArtist.topTracks.tracks.map((track) => 
+        <div>
+          <p>{track.name}</p>
+          <div class="album-thumbnail">
+            <img src={track.album.images[0].url}/>
+          </div>
+        </div>
+      )}
+        
         
       </div>
     </main> 
