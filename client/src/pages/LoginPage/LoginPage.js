@@ -5,11 +5,6 @@ import logo from "../../images/Spotify_Icon_RGB_White.png";
 import './LoginPage.scss';
 
 const LoginPage = () => {
-
-
-
-  
-
   return (
     <main className="login">
       <h1>Artist Explorer</h1>

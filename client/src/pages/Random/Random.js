@@ -1,9 +1,10 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
 import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser} from "../../utils/spotifyService";
+import InfoCard from "../../components/InfoCard/InfoCard";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSync } from '@fortawesome/free-solid-svg-icons'
+import { faSync, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 
 import "./Random.scss";
@@ -15,6 +16,10 @@ const Random = () => {
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
   const [play, setPlay] = React.useState(false);  
+  const [artistDetails, setArtistDetails] = React.useState(null);  
+
+
+  const audioEl = React.useRef(null);
   
 
   const getSeeds = async () => {
@@ -59,11 +64,18 @@ const Random = () => {
     setRelatedArtists(relatedArtists.data.artists);
   }
   
+  const getArtistDetails = async (artistId) => {
+    const user = await getUser();
+    const artistDetails = await getAllArtistInfo(artistId, user.data.country);
+    setArtistDetails(artistDetails);
+
+  }
   
   const handleClick = (event) => {
     event.stopPropagation();
     console.log(event.target)
     getRelatedArtists(event.target.id);
+    getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
     window.scrollTo({
       top: 0, 
@@ -71,10 +83,17 @@ const Random = () => {
     });
   }
 
-  const playMusic = () => {
-    setPlay(!play);
+  const playMusic = (event) => {
+    event.stopPropagation();
+    setPlay(event.target.id);
+    // audio.play();
   }
 
+
+  const stopMusic = (event) => {
+    event.stopPropagation();
+    setPlay(null)
+  }
 
   React.useEffect(() => {
     getRandomArtist();
@@ -89,16 +108,18 @@ const Random = () => {
 
   return ( 
     <main className="random">
-      {/* {relatedArtists && 
+      {relatedArtists && 
         <InfoCard 
-        artists={relatedArtists} 
-        currentArtist={singleArtist} 
+        artistDetails={artistDetails}
         handleClick={handleClick} 
-      />} */}
+      />}
 
 
 
       <div>
+              <button onClick={getRandomArtist}>
+                <FontAwesomeIcon spin={loading} icon={ faSync } />
+              </button>
         <div className="row randomrow">
           <div className="image">
             <img src={randomArtist.artist.images[0].url}/>
@@ -106,13 +127,12 @@ const Random = () => {
           <div className="artistinfo">
             <div className="row artist-header">
               <h1>{randomArtist.artist.name}</h1>
-              <button onClick={getRandomArtist}>
-                <FontAwesomeIcon spin={loading} icon={ faSync } />
-              </button>
+              <a target="_blank" className="external-tag" href={randomArtist.artist.external_urls.spotify}>
+                <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </a>
             </div>
             <div className="moreinfo">
               <small>{randomArtist.artist.followers.total} followers</small>
-              {/* <a href={randomArtist.artist.external_urls.spotify}>Open in Spotify</a> */}
               <div className="tags">
                 {randomArtist.artist.genres.map((genre) => <small>{genre}</small>)}
               </div>
@@ -127,14 +147,16 @@ const Random = () => {
           <div className="related m-0">
             {randomArtist.topTracks.tracks.map((track) => 
               <div>
-                {track.is_playable && 
-                  <audio autoPlay={play}>
+                {track.is_playable && play === track.id &&
+                  <audio id={track.id} autoPlay>
                     <source src={track.preview_url} type=""/>
                   </audio>
                 }
+                {track.is_playable && 
                 <div className="album-thumbnail">
-                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={playMusic}/>
+                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}/>
                 </div>
+                }
               </div>
             )}
           </div>
@@ -142,8 +164,8 @@ const Random = () => {
           <div className="related m-0">
             {randomArtist.related.artists.map((a) => 
               <div>
-                <div className="thumbnail">
-                  <img src={a.images[0].url}/>
+                <div className="thumbnail" onClick={handleClick} >
+                  <img src={a.images[0].url} id={a.id}/>
                 </div>
                 <p>{a.name}</p>
               </div>

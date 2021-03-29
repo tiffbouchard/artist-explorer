@@ -6,8 +6,9 @@ import {
 } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
-import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
 import Sidebar from '../../components/Sidebar/Sidebar';
+import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
+import Footer from "../../components/Footer/Footer";
 import Index from "../Index/Index";
 import TopArtists from "../TopArtists/TopArtists";
 import Following from "../Following/Following";
@@ -93,8 +94,8 @@ const Layout = (props) => {
               </Switch>
           </div>
         </div>
-      {/* <Footer /> */}
-      <MusicPlayer />
+      <Footer />
+      {/* <MusicPlayer /> */}
       </>
     );
 }

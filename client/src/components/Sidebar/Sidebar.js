@@ -38,7 +38,7 @@ const Sidebar = (props) => {
     <aside>
       {user &&
       <div className="user-info">
-        <div className="thumbnail">
+        <div className="thumbnail spotify">
           <Link to="/">
             <img src={logo}/>
           </Link>

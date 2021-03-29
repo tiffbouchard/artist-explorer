@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated } from "../../utils/spotifyService";
+import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated, getAllArtistInfo, getUser} from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -11,6 +11,7 @@ const TopArtists = () => {
   const [artists, setArtists] = React.useState(null);  
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
+  const [artistDetails, setArtistDetails] = React.useState(null);  
 
   
   const getArtists = async () => {
@@ -41,11 +42,18 @@ const TopArtists = () => {
     setRelatedArtists(relatedArtists.data.artists);
   }
   
+  const getArtistDetails = async (artistId) => {
+    const user = await getUser();
+    const artistDetails = await getAllArtistInfo(artistId, user.data.country);
+    setArtistDetails(artistDetails);
+
+  }
   
   const handleClick = (event) => {
     event.stopPropagation();
-    console.log(event.target)
+    console.log(event.target);
     getRelatedArtists(event.target.id);
+    getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
     window.scrollTo({
       top: 0, 
@@ -75,9 +83,8 @@ const TopArtists = () => {
         </div>
       </div>
       {relatedArtists && 
-        <InfoCard 
-          artists={relatedArtists} 
-          currentArtist={singleArtist} 
+        <InfoCard
+          artistDetails={artistDetails}
           handleClick={handleClick} 
         />}
       <div className="card-container">

@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getFollowing, getArtist, getRelated } from "../../utils/spotifyService";
+import { getFollowing, getArtist, getRelated, getAllArtistInfo, getUser } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -11,6 +11,8 @@ const Following = () => {
   const [artists, setArtists] = React.useState(null);  
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
+  const [artistDetails, setArtistDetails] = React.useState(null);  
+
 
   
   const getFollowingArtists = async () => {
@@ -30,11 +32,18 @@ const Following = () => {
     setRelatedArtists(relatedArtists.data.artists);
   }
   
+  const getArtistDetails = async (artistId) => {
+    const user = await getUser();
+    const artistDetails = await getAllArtistInfo(artistId, user.data.country);
+    setArtistDetails(artistDetails);
+
+  }
   
   const handleClick = (event) => {
     event.stopPropagation();
     console.log(event.target)
     getRelatedArtists(event.target.id);
+    getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
     window.scrollTo({
       top: 0, 
@@ -57,8 +66,7 @@ const Following = () => {
     <main className="content">
       <h1>Following</h1>
       {relatedArtists && <InfoCard 
-          artists={relatedArtists} 
-          currentArtist={singleArtist} 
+          artistDetails={artistDetails}
           handleClick={handleClick} />}
       <div className="card-container">
       {artists && artists.items.map((a) => 
