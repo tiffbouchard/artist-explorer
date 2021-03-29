@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated, getAllArtistInfo, getUser} from "../../utils/spotifyService";
+import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated, getAllArtistInfo, getUser, followArtist} from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -12,6 +12,7 @@ const TopArtists = () => {
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
   const [artistDetails, setArtistDetails] = React.useState(null);  
+  const [following, setFollowing] = React.useState();  
 
   
   const getArtists = async () => {
@@ -25,6 +26,12 @@ const TopArtists = () => {
     setArtists(artists.data)
   }
   
+
+  const handleFollow = async (event) => {
+    const following = await followArtist(event.target.id);
+    console.log(following.status)
+    setFollowing(following.status)
+  }
 
   const getFourWeeks = async () => {
     const artists = await getTopArtistsShort();
@@ -55,6 +62,7 @@ const TopArtists = () => {
     getRelatedArtists(event.target.id);
     getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
+    setFollowing(null);
     window.scrollTo({
       top: 0, 
       behavior: 'smooth'
@@ -84,6 +92,8 @@ const TopArtists = () => {
       </div>
       {relatedArtists && 
         <InfoCard
+          handleFollow={handleFollow}
+          following={following}
           artistDetails={artistDetails}
           handleClick={handleClick} 
         />}

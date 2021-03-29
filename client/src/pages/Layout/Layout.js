@@ -14,25 +14,36 @@ import TopArtists from "../TopArtists/TopArtists";
 import Following from "../Following/Following";
 import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
+import MobileHeader from "../../components/MobileHeader/MobileHeader";
+import Modal from "../../components/Modal/Modal";
 
 import { getSearch } from "../../utils/spotifyService";
 
 import './Layout.scss';
 
 import { UserContext } from '../../context/userContext';
+import Loader from '../../components/Loader/Loader';
+
 
 const Layout = (props) => {
-    const user = React.useContext(UserContext);
+    const { user }= React.useContext(UserContext);
 
     const [searchQuery, setSearchQuery] = React.useState();
     const [results, setResults] = React.useState();
     const [loading, setLoading] = React.useState();
     const [searching, setSearching] = React.useState();
+    const [modal, setModal] = React.useState(true);  
 
   
     const { history } = props;
 
+    const showModal = () => {
+      setModal(true);
+    }
   
+    const closeModal = () => {
+      setModal(false);
+    }
   
     const handleChange = async (event) => {
       setLoading(true);
@@ -54,8 +65,17 @@ const Layout = (props) => {
       setLoading(false);
     }
 
+
+    if (!user) {
+      return (
+        <Loader/>
+      )
+    }
+
     return (
       <>
+      <MobileHeader/>
+      {modal && <Modal closeModal={closeModal} title={`Welcome back, ${user.display_name}!`} type="welcome"/>}
       <div className="row">
           <Sidebar
             searching={searching}
@@ -68,7 +88,7 @@ const Layout = (props) => {
               <Switch>
                 <Route 
                   exact path="/"
-                  render={() => <Index/>}
+                  render={() => <TopArtists/>}
                 /> 
                 <Route 
                   exact path="/top"
@@ -95,7 +115,6 @@ const Layout = (props) => {
           </div>
         </div>
       <Footer />
-      {/* <MusicPlayer /> */}
       </>
     );
 }

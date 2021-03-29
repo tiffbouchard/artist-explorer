@@ -24,3 +24,10 @@
     display: flex;
     z-index: 100;
 }
+
+@media only screen and (max-width: 680px) {
+    .dropdown {
+        top: 75px;
+        right: 5px;
+    }
+  }

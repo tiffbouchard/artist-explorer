@@ -2,15 +2,18 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    position: relative;
 }
 
 .player {
-    max-width: 100px;
+    max-width: 200px;
+    max-height: 200px;
+    width: 200px;
+    height: 200px;
     position: fixed;
     bottom: 35px;
+    left: 35px;
     z-index: 100;
-    width: 95vw;
-    height: 80px;
     background: rgba(255, 255, 255, 0.7);
     // background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(3px);
@@ -20,7 +23,6 @@
     transition: 0.3s ease-in-out;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .controls {
@@ -40,22 +42,40 @@
 
 .container .player .music-info {
     height: 100%;
-    display: flex;
     div {
-        padding: 10px 0px 10px 12px;
-        height: 60px;
+        height: 100%;
         img {
             height: 100%;
             border-radius: 10px;
         }
     }
-    .trackinfo {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+}
+
+.secondary-text {
+    color: rgb(53, 53, 53);
+}
+
+.trackinfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+    bottom: 0;
+    border-radius: 0px 0px 10px 10px;
+    div {
+        padding: 10px;
         p {
             margin: 0px;
-            // color: white;
+            color: black;
         }
     }
 }
+
+@media only screen and (max-width: 680px) {
+    .player {
+      bottom: 100px;
+    }
+  }

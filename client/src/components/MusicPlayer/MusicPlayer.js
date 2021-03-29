@@ -5,30 +5,36 @@ import { faPlay, faPause, faFastForward, faFastBackward,  faHeart} from '@fortaw
 
 import './MusicPlayer.scss';
 
-const MusicPlayer = () => {
+const MusicPlayer = (props) => {
+  const { nowPlaying } = props;
+
 
   return (
     <div className="container">
-      <div className="player">
-        <div className="music-info">
-          <div>
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/Doja_Cat_-_Hot_Pink.png/220px-Doja_Cat_-_Hot_Pink.png"/>
+      {nowPlaying && 
+        <div className="player">
+          <div className="music-info">
+            <div>
+              <img src={nowPlaying[0]}/>
+            </div>
           </div>
           <div className="trackinfo">
-            <p>Say So</p>
-            <p className="secondary-text">Doja Cat</p>
+            <div>
+              <p>{nowPlaying[1]}</p>
+              <small className="secondary-text">{nowPlaying[2]}</small>
+            </div>
           </div>
-        </div>
-        <div className="controls">
-          <FontAwesomeIcon icon={faFastBackward} />
-          <FontAwesomeIcon icon={faPlay} />
-          <FontAwesomeIcon icon={faFastForward} />
-        </div>
-        <div className="like">
-          <FontAwesomeIcon icon={faHeart} />
-        </div>
+          {/* <div className="controls">
+            <FontAwesomeIcon icon={faFastBackward} />
+            <FontAwesomeIcon icon={faPlay} />
+            <FontAwesomeIcon icon={faFastForward} />
+          </div>
+          <div className="like">
+            <FontAwesomeIcon icon={faHeart} />
+          </div> */}
 
-      </div>
+        </div>
+      }
     </div>
     );
 }

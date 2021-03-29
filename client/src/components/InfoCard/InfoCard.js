@@ -2,24 +2,29 @@ import React from 'react';
 import Loader from "../Loader/Loader";
 import './InfoCard.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faExternalLinkAlt, faPlusCircle} from '@fortawesome/free-solid-svg-icons'
 import logo from "../../images/Spotify_Icon_RGB_Green.png";
+import MusicPlayer from "../MusicPlayer/MusicPlayer";
+
 
 const InfoCard = (props) => {
-  const {handleClick, artistDetails} = props;
+  const {handleClick, artistDetails, following, handleFollow} = props;
   const [play, setPlay] = React.useState(false);  
+  const [nowPlaying, setNowPlaying] = React.useState(null);
 
 
   const playMusic = (event) => {
     event.stopPropagation();
     setPlay(event.target.id);
-    // audio.play();
+    setNowPlaying([event.target.src, event.target.getAttribute("data-name"), event.target.getAttribute("data-artists")]);
   }
+
 
 
   const stopMusic = (event) => {
     event.stopPropagation();
-    setPlay(null)
+    setPlay(null);
+    setNowPlaying(null);
   }
 
   if (!artistDetails) {
@@ -43,6 +48,14 @@ const InfoCard = (props) => {
           
           <small className="stats">{artistDetails.artist.followers.total} followers</small>
           <div className="tags">{artistDetails.artist.genres.map((genre) =>  <small>{genre}</small>)}</div>
+
+          {artistDetails.doesFollow || following === 204 ? 
+                <button id={artistDetails.artist.id} className="follow-btn">Following</button> 
+                : 
+                
+                  <button onClick={handleFollow} id={artistDetails.artist.id} className="follow-btn">Follow&nbsp;<FontAwesomeIcon icon={faPlusCircle}/></button>
+              
+              }
         </div>
       </div>
       <div className="related-tracks">
@@ -57,7 +70,7 @@ const InfoCard = (props) => {
                 }
                 {track.is_playable && 
                 <div className="album-thumbnail">
-                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}/>
+                  <img src={track.album.images[0].url} data-name={track.name} id={track.id} data-artists={track.artists.map((artist) => artist.name)} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}/>
                 </div>
                 }
               </div>
@@ -77,6 +90,7 @@ const InfoCard = (props) => {
         )}
       </div>
         </div>
+      <MusicPlayer nowPlaying={nowPlaying}/>
     </div>
     );
 }

@@ -39,3 +39,9 @@ button:hover {
 }
 
 
+
+@media only screen and (max-width: 680px) {
+    .thumbnail-small {
+      display: none;
+    }
+  }

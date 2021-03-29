@@ -9,6 +9,9 @@ aside {
     align-items: center;
     text-align: center;
     padding: 30px 0px;
+    h2 {
+        margin: 10px;
+    }
 }
 
 .primary-text {
@@ -80,5 +83,10 @@ aside {
     }
     .thumbnail.spotify {
         display: none;
+    }
+    .user-info {
+        h2 {
+            display: none;
+        }
     }
   }

@@ -17,6 +17,14 @@ code {
   width: 100px;
 }
 
+.thumbnail:hover, .album-thumbnail:hover {
+  opacity: 0.8;
+  transition: 0.3s ease-in;
+  cursor: pointer;
+}
+
+
+
 .thumbnail img {
   object-fit: cover;
   height: 100%;

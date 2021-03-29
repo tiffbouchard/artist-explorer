@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getArtist, getRelated } from "../../utils/spotifyService";
+import { getArtist, getRelated, getAllArtistInfo, getUser, followArtist} from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -10,8 +10,16 @@ import Card from "../../components/Card/Card"
 const SearchResults = (props) => {
   const [singleArtist, setSingleArtist] = React.useState(null);  
   const [relatedArtists, setRelatedArtists] = React.useState(null);  
+  const [artistDetails, setArtistDetails] = React.useState(null);  
+  const [following, setFollowing] = React.useState();  
 
 
+  const handleFollow = async (event) => {
+    const following = await followArtist(event.target.id);
+    console.log(following.status)
+    setFollowing(following.status)
+  }
+  
 
   const getSingleArtist = async (artistId) => {
     const singleArtist = await getArtist(artistId);
@@ -23,12 +31,20 @@ const SearchResults = (props) => {
     setRelatedArtists(relatedArtists.data.artists);
   }
   
+  const getArtistDetails = async (artistId) => {
+    const user = await getUser();
+    const artistDetails = await getAllArtistInfo(artistId, user.data.country);
+    setArtistDetails(artistDetails);
+
+  }
   
   const handleClick = (event) => {
     event.stopPropagation();
     console.log(event.target)
     getRelatedArtists(event.target.id);
+    getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
+    setFollowing(null);
     window.scrollTo({
       top: 0, 
       behavior: 'smooth'
@@ -56,8 +72,9 @@ const SearchResults = (props) => {
       <h1>Search Results for {searchQuery}</h1>
       {relatedArtists && 
         <InfoCard 
-          artists={relatedArtists} 
-          currentArtist={singleArtist} 
+        handleFollow={handleFollow}
+        following={following}
+          artistDetails={artistDetails}
           handleClick={handleClick} 
         />}
       <div className="card-container">

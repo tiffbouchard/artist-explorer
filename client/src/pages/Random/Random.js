@@ -1,10 +1,12 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser} from "../../utils/spotifyService";
+import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser, followArtist, doesUserFollowArtist} from "../../utils/spotifyService";
 import InfoCard from "../../components/InfoCard/InfoCard";
+import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
 
+import Modal from "../../components/Modal/Modal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSync, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faRedo, faExternalLinkAlt, faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons'
 
 
 import "./Random.scss";
@@ -16,7 +18,11 @@ const Random = () => {
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
   const [play, setPlay] = React.useState(false);  
+  const [nowPlaying, setNowPlaying] = React.useState(null);
   const [artistDetails, setArtistDetails] = React.useState(null);  
+  const [modal, setModal] = React.useState(false);  
+  const [following, setFollowing] = React.useState();  
+
 
 
   const audioEl = React.useRef(null);
@@ -50,6 +56,7 @@ const Random = () => {
     const user = await getUser();
     const artistDetails = await getAllArtistInfo(randomArtist.data.tracks[0].artists[0].id, user.data.country)
     setRandomArtist(artistDetails);
+    setFollowing(null);
     setLoading(false);
   }
   
@@ -70,13 +77,23 @@ const Random = () => {
     setArtistDetails(artistDetails);
 
   }
-  
+
+  const handleFollow = async (event) => {
+    const following = await followArtist(event.target.id);
+    console.log(following.status)
+    setFollowing(following.status)
+  }
+
+
+
   const handleClick = (event) => {
     event.stopPropagation();
-    console.log(event.target)
+    console.log(event.target);
     getRelatedArtists(event.target.id);
     getArtistDetails(event.target.id);
     getSingleArtist(event.target.id);
+    setFollowing(null);
+
     window.scrollTo({
       top: 0, 
       behavior: 'smooth'
@@ -86,13 +103,23 @@ const Random = () => {
   const playMusic = (event) => {
     event.stopPropagation();
     setPlay(event.target.id);
-    // audio.play();
+    setNowPlaying([event.target.src, event.target.getAttribute("data-name"), event.target.getAttribute("data-artists")]);
   }
 
 
   const stopMusic = (event) => {
     event.stopPropagation();
-    setPlay(null)
+    setPlay(null);
+    setNowPlaying(null);
+  }
+
+
+  const showModal = () => {
+    setModal(true);
+  }
+
+  const closeModal = () => {
+    setModal(false);
   }
 
   React.useEffect(() => {
@@ -108,8 +135,12 @@ const Random = () => {
 
   return ( 
     <main className="random">
+      {modal && <Modal closeModal={closeModal} title="How it works" body="The random artist generator is the perfect way to discover new artists or rediscover some of your favourites. Sometimes there are just too many options and the random generator makes it easy to jump in and start listening to something good. Your results are based on your current favourites so you always get an artist that matches your vibe. A random array of your top artists from the past 4 weeks are thrown into Spotify's recommendation system and returns someone similar. Not happy with the results? Generate a new artist using the ↻ button"/>}
+
       {relatedArtists && 
         <InfoCard 
+        following={following}
+        handleFollow={handleFollow}
         artistDetails={artistDetails}
         handleClick={handleClick} 
       />}
@@ -117,15 +148,18 @@ const Random = () => {
 
 
       <div>
-              <button onClick={getRandomArtist}>
-                <FontAwesomeIcon spin={loading} icon={ faSync } />
-              </button>
-        <div className="row randomrow">
+        <div className="randomheader-info">
+          <button onClick={getRandomArtist}>
+            <FontAwesomeIcon spin={loading} icon={ faRedo } />
+          </button>
+          <small onClick={showModal}><u>How it works</u></small>
+        </div>
+        <div className="randomrow">
           <div className="image">
-            <img src={randomArtist.artist.images[0].url}/>
+            <img src={randomArtist.artist.images ? randomArtist.artist.images[0].url : ""}/>
           </div>
           <div className="artistinfo">
-            <div className="row artist-header">
+            <div className="randomrow artist-header">
               <h1>{randomArtist.artist.name}</h1>
               <a target="_blank" className="external-tag" href={randomArtist.artist.external_urls.spotify}>
                 <FontAwesomeIcon icon={faExternalLinkAlt} />
@@ -136,6 +170,17 @@ const Random = () => {
               <div className="tags">
                 {randomArtist.artist.genres.map((genre) => <small>{genre}</small>)}
               </div>
+
+              {randomArtist.doesFollow || following === 204 ? 
+                <button id={randomArtist.artist.id} className="follow-btn">Following</button> 
+                : 
+                
+                  <button onClick={handleFollow} id={randomArtist.artist.id} className="follow-btn">Follow&nbsp;<FontAwesomeIcon icon={faPlusCircle}/></button>
+              
+              }
+            
+
+
             </div>
       
           </div>
@@ -154,7 +199,7 @@ const Random = () => {
                 }
                 {track.is_playable && 
                 <div className="album-thumbnail">
-                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}/>
+                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} data-name={track.name} id={track.id} data-artists={track.artists.map((artist) => artist.name)}/>
                 </div>
                 }
               </div>
@@ -175,6 +220,8 @@ const Random = () => {
 
 
       </div>
+      <MusicPlayer nowPlaying={nowPlaying}/>
+
     </main> 
     );
 }

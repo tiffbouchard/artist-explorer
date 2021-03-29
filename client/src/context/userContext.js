@@ -33,6 +33,9 @@ class UserProvider extends React.Component {
   }
 }
 
-export { UserContext };
+const UserConsumer = UserContext.Consumer;
+
+
+export { UserContext, UserConsumer};
 
 export default UserProvider;

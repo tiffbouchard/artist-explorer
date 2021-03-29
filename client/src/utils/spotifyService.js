@@ -282,11 +282,12 @@ export const getTrackInfo = trackId =>
     
 export const getAllArtistInfo = (artistId, market) =>
   axios
-    .all([getArtist(artistId), getRelated(artistId), getArtistTopTracks(artistId, market)])
+    .all([getArtist(artistId), getRelated(artistId), getArtistTopTracks(artistId, market), doesUserFollowArtist(artistId)])
     .then(
-      axios.spread((artist, related, topTracks) => ({
+      axios.spread((artist, related, topTracks, doesFollow) => ({
         artist: artist.data,
         related: related.data,
         topTracks: topTracks.data,
+        doesFollow: doesFollow.data[0]
       })),
     );
