@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  isMobile
+} from "react-device-detect";
+
 import Loader from "../Loader/Loader";
 import './InfoCard.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,6 +15,7 @@ const InfoCard = (props) => {
   const {handleClick, artistDetails, following, handleFollow} = props;
   const [play, setPlay] = React.useState(false);  
   const [nowPlaying, setNowPlaying] = React.useState(null);
+  const audioEl = React.useRef(null);
 
 
   const playMusic = (event) => {
@@ -61,13 +66,27 @@ const InfoCard = (props) => {
       <div className="related-tracks">
           <h2>Top Tracks</h2>
           <div className="related m-0">
+            
             {artistDetails.topTracks && artistDetails.topTracks.tracks && artistDetails.topTracks.tracks.map((track) => 
               <div>
-                {track.is_playable && play === track.id &&
-                  <audio id={track.id} autoPlay>
+
+                { isMobile ? 
+
+                  track.is_playable && 
+                  <audio id={track.id} controls>
                     <source src={track.preview_url} type=""/>
                   </audio>
+                
+                : 
+                
+                
+                  track.is_playable && play === track.id &&
+                    <audio id={track.id} autoPlay  ref={audioEl} onLoadedData={() => audioEl.current.play()}>
+                      <source src={track.preview_url} type=""/>
+                    </audio>
+                  
                 }
+
                 {track.is_playable && 
                 <div className="album-thumbnail">
                   <img src={track.album.images[0].url} data-name={track.name} id={track.id} data-artists={track.artists.map((artist) => artist.name)} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}/>
@@ -75,6 +94,8 @@ const InfoCard = (props) => {
                 }
               </div>
             )}
+
+
           </div>
 
       <h2>Related Artists</h2>

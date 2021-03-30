@@ -1,20 +1,22 @@
 import React from 'react';
+import {
+  isMobile
+} from "react-device-detect";
+
 import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getArtist, getRelated, getRecommendationsForArtist, getAllArtistInfo, getUser, followArtist, doesUserFollowArtist} from "../../utils/spotifyService";
+import { getTopArtistsShort, getRecommendationsForArtist, getAllArtistInfo, getUser, followArtist } from "../../utils/spotifyService";
 import InfoCard from "../../components/InfoCard/InfoCard";
 import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
-
 import Modal from "../../components/Modal/Modal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRedo, faExternalLinkAlt, faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons'
+import { faRedo, faExternalLinkAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '../../context/userContext';
 
 
 import "./Random.scss";
 
 const Random = () => {
-  const [artists, setArtists] = React.useState(null);  
-  const [singleArtist, setSingleArtist] = React.useState(null);  
-  const [relatedArtists, setRelatedArtists] = React.useState(null);  
+  const { user } = React.useContext(UserContext);
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
   const [play, setPlay] = React.useState(false);  
@@ -23,11 +25,8 @@ const Random = () => {
   const [modal, setModal] = React.useState(false);  
   const [following, setFollowing] = React.useState();  
 
-
-
   const audioEl = React.useRef(null);
   
-
   const getSeeds = async () => {
     const artistsList = await getTopArtistsShort();
     const max = artistsList.data.items.length;
@@ -60,16 +59,6 @@ const Random = () => {
     setLoading(false);
   }
   
-
-  const getSingleArtist = async (artistId) => {
-    const singleArtist = await getArtist(artistId);
-    setSingleArtist(singleArtist.data)
-  }
-
-  const getRelatedArtists = async (artistId) => {
-    const relatedArtists = await getRelated(artistId);
-    setRelatedArtists(relatedArtists.data.artists);
-  }
   
   const getArtistDetails = async (artistId) => {
     const user = await getUser();
@@ -89,9 +78,7 @@ const Random = () => {
   const handleClick = (event) => {
     event.stopPropagation();
     console.log(event.target);
-    getRelatedArtists(event.target.id);
     getArtistDetails(event.target.id);
-    getSingleArtist(event.target.id);
     setFollowing(null);
 
     window.scrollTo({
@@ -137,15 +124,13 @@ const Random = () => {
     <main className="random">
       {modal && <Modal closeModal={closeModal} title="How it works" body="The random artist generator is the perfect way to discover new artists or rediscover some of your favourites. Sometimes there are just too many options and the random generator makes it easy to jump in and start listening to something good. Your results are based on your current favourites so you always get an artist that matches your vibe. A random array of your top artists from the past 4 weeks are thrown into Spotify's recommendation system and returns someone similar. Not happy with the results? Generate a new artist using the ↻ button"/>}
 
-      {relatedArtists && 
+      {artistDetails && 
         <InfoCard 
         following={following}
         handleFollow={handleFollow}
         artistDetails={artistDetails}
         handleClick={handleClick} 
       />}
-
-
 
       <div>
         <div className="randomheader-info">
@@ -178,13 +163,8 @@ const Random = () => {
                   <button onClick={handleFollow} id={randomArtist.artist.id} className="follow-btn">Follow&nbsp;<FontAwesomeIcon icon={faPlusCircle}/></button>
               
               }
-            
-
-
             </div>
-      
           </div>
-
         </div>
 
         <div className="info">
@@ -192,11 +172,22 @@ const Random = () => {
           <div className="related m-0">
             {randomArtist.topTracks.tracks.map((track) => 
               <div>
-                {track.is_playable && play === track.id &&
-                  <audio id={track.id} autoPlay>
-                    <source src={track.preview_url} type=""/>
-                  </audio>
-                }
+                 { isMobile ? 
+
+                    track.is_playable && 
+                    <audio id={track.id} controls>
+                      <source src={track.preview_url} type=""/>
+                    </audio>
+
+                    : 
+
+
+                    track.is_playable && play === track.id &&
+                      <audio id={track.id} autoPlay  ref={audioEl} onLoadedData={() => audioEl.current.play()}>
+                        <source src={track.preview_url} type=""/>
+                      </audio>
+
+                  }
                 {track.is_playable && 
                 <div className="album-thumbnail">
                   <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} data-name={track.name} id={track.id} data-artists={track.artists.map((artist) => artist.name)}/>
@@ -205,6 +196,7 @@ const Random = () => {
               </div>
             )}
           </div>
+
           <h2>Related Artists</h2>
           <div className="related m-0">
             {randomArtist.related.artists.map((a) => 
@@ -217,9 +209,8 @@ const Random = () => {
             )}
           </div>
         </div>
-
-
       </div>
+
       <MusicPlayer nowPlaying={nowPlaying}/>
 
     </main> 

@@ -1,32 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
 import Sidebar from '../../components/Sidebar/Sidebar';
-import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
-import Footer from "../../components/Footer/Footer";
-import Index from "../Index/Index";
 import TopArtists from "../TopArtists/TopArtists";
 import Following from "../Following/Following";
 import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
 import MobileHeader from "../../components/MobileHeader/MobileHeader";
 import Modal from "../../components/Modal/Modal";
-
-import { getSearch } from "../../utils/spotifyService";
-
-import './Layout.scss';
-
+import { getSearch, token } from "../../utils/spotifyService";
 import { UserContext } from '../../context/userContext';
 import Loader from '../../components/Loader/Loader';
 
 
+import './Layout.scss';
+
+
 const Layout = (props) => {
     const { user }= React.useContext(UserContext);
+    const { history } = props;
 
     const [searchQuery, setSearchQuery] = React.useState();
     const [results, setResults] = React.useState();
@@ -34,13 +30,6 @@ const Layout = (props) => {
     const [searching, setSearching] = React.useState();
     const [modal, setModal] = React.useState(true);  
 
-  
-    const { history } = props;
-
-    const showModal = () => {
-      setModal(true);
-    }
-  
     const closeModal = () => {
       setModal(false);
     }
@@ -66,7 +55,7 @@ const Layout = (props) => {
     }
 
 
-    if (!user) {
+    if (!token) {
       return (
         <Loader/>
       )
@@ -114,7 +103,6 @@ const Layout = (props) => {
               </Switch>
           </div>
         </div>
-      <Footer />
       </>
     );
 }

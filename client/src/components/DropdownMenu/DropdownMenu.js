@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { UserContext } from '../../context/userContext';
 import { logout } from '../../utils/spotifyService';
 

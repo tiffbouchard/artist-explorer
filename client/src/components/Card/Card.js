@@ -1,9 +1,9 @@
-import React from 'react';
-
 import "./Card.scss";
 
 const Card = (props) => {
+
   const { image, name, id, handleClick} = props;
+  
   return ( 
       <div>
         <div className="card" key={id} onClick={handleClick}>

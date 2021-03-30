@@ -1,40 +1,33 @@
 import React from 'react';
-import { UserContext } from '../../context/userContext';
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../images/Spotify_Icon_RGB_Green.png";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrophy, faDice, faUserPlus, faUser } from '@fortawesome/free-solid-svg-icons'
 
+import logo from "../../images/Spotify_Icon_RGB_Green.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrophy, faDice, faUserPlus, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBehanceSquare, faInstagramSquare, faGithubSquare, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 
 import './Sidebar.scss';
 
-const Sidebar = (props) => {
-  const { user } = React.useContext(UserContext);
-  
+const Sidebar = () => {  
+  let location = useLocation();
+
   const [selected, setSelected] = React.useState();
 
   const toggleClass = (category) => {
     setSelected(category)
   }
 
-
   const handleClick = (event) => {
     toggleClass(event.target.id)
   }
-
-
-  let location = useLocation();
-
 
   const getPath = () => {
     setSelected(location.pathname.replace("/", ""));
   }
 
-
   React.useEffect(() => {
     getPath();
   }, [])
-
 
 
   return (
@@ -48,9 +41,6 @@ const Sidebar = (props) => {
         <h2>Artist Explorer</h2>
       </div> 
       <ul className="side-nav">
-        {/* <Link className="link" to="/recent">
-          <li className={selected == "recent" ? 'active' : null} onClick={handleClick} id="recent">Recent</li>
-        </Link> */}
         <Link className="link" to="/top">
           <li className={selected == "top" ? 'active' : null}  onClick={handleClick} id="top">
             <FontAwesomeIcon icon={faTrophy} />&nbsp;
@@ -70,6 +60,23 @@ const Sidebar = (props) => {
           </li>
         </Link>
       </ul>
+      <div class="social-icons">
+        <a href="https://github.com/tiffbouchard" target="_blank">
+          <FontAwesomeIcon icon={faGithubSquare} />&nbsp;
+        </a>
+        <a href="https://linkedin.com/in/tiffanybouchard" target="_blank">
+          <FontAwesomeIcon icon={faLinkedin} />&nbsp;
+        </a>
+        <a href="https://behance.net/tiffanybouchard" target="_blank">
+          <FontAwesomeIcon icon={faBehanceSquare} />&nbsp;
+        </a>
+        <a href="https://tiffbouchard.com" target="_blank">
+          <FontAwesomeIcon icon={faExternalLinkSquareAlt} />&nbsp;
+        </a>
+        <a href="https://instagram.com/tiffbouchard" targe="_blank">
+          <FontAwesomeIcon icon={faInstagramSquare} />&nbsp;
+        </a>
+      </div>
     </aside>
     );
 }

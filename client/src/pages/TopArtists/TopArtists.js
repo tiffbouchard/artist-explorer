@@ -1,67 +1,51 @@
 import React from 'react';
-import Loader from "../../components/Loader/Loader";
-import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getArtist, getRelated, getAllArtistInfo, getUser, followArtist} from "../../utils/spotifyService";
 
+import Loader from "../../components/Loader/Loader";
+import { getTopArtistsShort, getTopArtistsMedium, getTopArtistsLong, getAllArtistInfo, followArtist} from "../../utils/spotifyService";
 import InfoCard from "../../components/InfoCard/InfoCard";
-import Card from "../../components/Card/Card"
+import Card from "../../components/Card/Card";
 
 import "./TopArtists.scss";
+import { UserContext } from '../../context/userContext';
 
 const TopArtists = () => {
-  const [artists, setArtists] = React.useState(null);  
-  const [singleArtist, setSingleArtist] = React.useState(null);  
-  const [relatedArtists, setRelatedArtists] = React.useState(null);  
+  const { user } = React.useContext(UserContext);
+  const [artists, setArtists] = React.useState(null);   
   const [artistDetails, setArtistDetails] = React.useState(null);  
   const [following, setFollowing] = React.useState();  
 
   
   const getArtists = async () => {
     const artists = await getTopArtistsLong();
-    setArtists(artists.data)
+    setArtists(artists.data);
   }
   
 
   const getSixMonths = async () => {
     const artists = await getTopArtistsMedium();
-    setArtists(artists.data)
+    setArtists(artists.data);
   }
   
 
   const handleFollow = async (event) => {
     const following = await followArtist(event.target.id);
-    console.log(following.status)
-    setFollowing(following.status)
+    setFollowing(following.status);
   }
 
   const getFourWeeks = async () => {
     const artists = await getTopArtistsShort();
-    setArtists(artists.data)
+    setArtists(artists.data);
   }
   
-
-  const getSingleArtist = async (artistId) => {
-    const singleArtist = await getArtist(artistId);
-    setSingleArtist(singleArtist.data)
-  }
-
-  const getRelatedArtists = async (artistId) => {
-    const relatedArtists = await getRelated(artistId);
-    setRelatedArtists(relatedArtists.data.artists);
-  }
   
   const getArtistDetails = async (artistId) => {
-    const user = await getUser();
-    const artistDetails = await getAllArtistInfo(artistId, user.data.country);
+    const artistDetails = await getAllArtistInfo(artistId, user.country);
     setArtistDetails(artistDetails);
-
   }
   
   const handleClick = (event) => {
     event.stopPropagation();
-    console.log(event.target);
-    getRelatedArtists(event.target.id);
     getArtistDetails(event.target.id);
-    getSingleArtist(event.target.id);
     setFollowing(null);
     window.scrollTo({
       top: 0, 
@@ -90,7 +74,7 @@ const TopArtists = () => {
           <button onClick={getFourWeeks}>Last 4 Weeks</button>
         </div>
       </div>
-      {relatedArtists && 
+      {artistDetails && 
         <InfoCard
           handleFollow={handleFollow}
           following={following}

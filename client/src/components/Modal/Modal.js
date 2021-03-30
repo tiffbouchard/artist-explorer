@@ -1,7 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import { faTrophy, faDice, faUserPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
-
 
 import "./Modal.scss";
 
@@ -35,7 +33,7 @@ const Modal = (props) => {
               </div>
             </div>
             <p>
-              Found your starting point? Click on your favourite artist to find similar artists and listen to their top tracks. Continue clicking on artists until you find what you're looking for! 
+              Found your starting point? Click on your favourite artist to find similar artists and listen to their top tracks.  Continue clicking on artists until you find what you're looking for! <b>Tracks plays on hover to make music discovery super fast.</b>
             </p>
 
           </div>

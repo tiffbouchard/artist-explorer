@@ -1,4 +1,3 @@
-// Get the query params off the window's URL
 export const getHashParams = () => {
   const hashParams = {};
   let e;

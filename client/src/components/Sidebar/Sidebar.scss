@@ -1,6 +1,12 @@
 aside {
     height: 100vh;
-    width: 200px;
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    background-color: white;
+    overflow: hidden;
 }
 
 .user-info {
@@ -14,6 +20,8 @@ aside {
     }
 }
 
+
+
 .primary-text {
     margin-bottom: 5px;
 }
@@ -21,11 +29,11 @@ aside {
 
 .side-nav {
     list-style: none;
-    margin: 50px 0px;
     padding: 5px;
 }
 
 .side-nav li {
+    width: 100%;
     padding: 20px;
     margin: 10px 0;
 }
@@ -51,6 +59,23 @@ aside {
 
 }
 
+.social-icons {
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    color: lightgrey;
+    a {
+        text-decoration: none;
+        color: lightgrey;
+    }
+}
+
+.social-icons a :hover {
+    transition: 0.2s ease-in-out;
+    color: grey;
+}
+
 @media only screen and (max-width: 680px) {
     aside {
         height: 100%;
@@ -67,7 +92,12 @@ aside {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-direction: row;
+
         
+    }
+    .social-icons {
+        display: none;
     }
     aside:hover {
         backdrop-filter: blur(10px);
@@ -88,5 +118,8 @@ aside {
         h2 {
             display: none;
         }
+    }
+    .side-nav li {
+        width: fit-content;
     }
   }

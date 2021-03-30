@@ -5,12 +5,9 @@ import { getFollowing, getArtist, getRelated, getAllArtistInfo, getUser, followA
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
 
-// import "./TopArtists.scss";
 
 const Following = () => {
   const [artists, setArtists] = React.useState(null);  
-  const [singleArtist, setSingleArtist] = React.useState(null);  
-  const [relatedArtists, setRelatedArtists] = React.useState(null);  
   const [artistDetails, setArtistDetails] = React.useState(null);  
   const [following, setFollowing] = React.useState();  
 
@@ -22,19 +19,7 @@ const Following = () => {
   
   const getFollowingArtists = async () => {
     const artists = await getFollowing();
-    console.log(artists)
     setArtists(artists.data.artists);
-  }
-  
-
-  const getSingleArtist = async (artistId) => {
-    const singleArtist = await getArtist(artistId);
-    setSingleArtist(singleArtist.data)
-  }
-
-  const getRelatedArtists = async (artistId) => {
-    const relatedArtists = await getRelated(artistId);
-    setRelatedArtists(relatedArtists.data.artists);
   }
   
   const getArtistDetails = async (artistId) => {
@@ -46,10 +31,7 @@ const Following = () => {
   
   const handleClick = (event) => {
     event.stopPropagation();
-    console.log(event.target)
-    getRelatedArtists(event.target.id);
     getArtistDetails(event.target.id);
-    getSingleArtist(event.target.id);
     setFollowing(null);
 
     window.scrollTo({
@@ -72,7 +54,7 @@ const Following = () => {
   return ( 
     <main className="content">
       <h1>Following</h1>
-      {relatedArtists && <InfoCard 
+      {artistDetails && <InfoCard 
           handleFollow={handleFollow}
           following={following}
           artistDetails={artistDetails}
