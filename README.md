@@ -4,7 +4,6 @@
 
 
 ## Table of Contents
-- [About](#about)
 - [Tech Stack](#tech-stack)
 - [Preview](#preview)
 - [Demo](#demo)
@@ -27,7 +26,7 @@
 ## Demo 
 Click [here](https://artist-explorer.herokuapp.com) for a demo (You'll need a Spotify account with a decent amount of listening history)
 
-## Next Steps/Issues
+## Next Steps
 - Music player/display gets in the way on the mobile version 
 - Music will play over top of eachother if you are on the Random page and try to play two tracks at once
 - Generate a random artist that is not based on your current taste, maybe also based on genre
