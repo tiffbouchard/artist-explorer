@@ -91,19 +91,19 @@ const Layout = (props) => {
                 <Switch>
                   <Route 
                     exact path="/"
-                    render={() => token ? <TopArtists/> : <Redirect to="/"/>}
+                    render={() => token ? <TopArtists/> : <Redirect to="/login"/>}
                   /> 
                   <Route 
                     exact path="/top"
-                    render={() => token ? <TopArtists/> : <Redirect to="/"/>}
+                    render={() => token ? <TopArtists/> : <Redirect to="/login"/>}
                   /> 
                   <Route 
                     exact path="/following"
-                    render={() => token ? <Following/> : <Redirect to="/"/>}
+                    render={() => token ? <Following/> : <Redirect to="/login"/>}
                   /> 
                   <Route 
                     exact path="/random"
-                    render={() => token ? <Random/> : <Redirect to="/"/>}
+                    render={() => token ? <Random/> : <Redirect to="/login"/>}
                   /> 
                   <Route 
                   exact path="/search"

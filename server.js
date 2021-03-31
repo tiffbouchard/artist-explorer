@@ -45,6 +45,23 @@ app.get('/', function (req, res) {
   res.render(path.resolve(__dirname, 'client/build/index.html'));
 });
 
+app.get('/search', function (req, res) {
+  res.render(path.resolve(__dirname, 'client/build/index.html'));
+});
+
+app.get('/top', function (req, res) {
+  res.render(path.resolve(__dirname, 'client/build/index.html'));
+});
+
+app.get('/random', function (req, res) {
+  res.render(path.resolve(__dirname, 'client/build/index.html'));
+});
+
+app.get('/following', function (req, res) {
+  res.render(path.resolve(__dirname, 'client/build/index.html'));
+});
+
+
 app.get('/login', function(req, res) { 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
