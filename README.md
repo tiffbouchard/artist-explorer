@@ -16,7 +16,7 @@
 - Spotify Web API
 
 ## Preview
-<img width="300" height="auto" src="/images/demo_one.png" alt="home"/>
+<img width="70%" height="auto" src="/images/demo_one.png" alt="home"/>
 
 <img src="/images/demo_three.png" alt="random"/>
 
