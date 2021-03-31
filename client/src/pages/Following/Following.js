@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "../../components/Loader/Loader";
-import { getFollowing, getArtist, getRelated, getAllArtistInfo, getUser, followArtist } from "../../utils/spotifyService";
+import { getFollowing, getAllArtistInfo, getUser, followArtist } from "../../utils/spotifyService";
 
 import InfoCard from "../../components/InfoCard/InfoCard";
 import Card from "../../components/Card/Card"
@@ -62,6 +62,7 @@ const Following = () => {
       <div className="card-container">
       {artists && artists.items.map((a) => 
           <Card 
+            key={a.id}
             id={a.id}
             handleClick={handleClick} 
             image={a.images[0].url} 

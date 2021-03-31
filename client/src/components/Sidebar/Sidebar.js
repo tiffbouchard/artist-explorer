@@ -35,45 +35,45 @@ const Sidebar = () => {
       <div className="user-info">
         <div className="thumbnail spotify">
           <Link to="/">
-            <img src={logo}/>
+            <img src={logo} alt="Spotify Logo"/>
           </Link>
         </div>
         <h2>Artist Explorer</h2>
       </div> 
       <ul className="side-nav">
         <Link className="link" to="/top">
-          <li className={selected == "top" ? 'active' : null}  onClick={handleClick} id="top">
+          <li className={selected === "top" ? 'active' : null}  onClick={handleClick} id="top">
             <FontAwesomeIcon icon={faTrophy} />&nbsp;
             Top Artists
           </li>
         </Link>
         <Link className="link" to="/random">
-          <li className={selected == "random" ? 'active' : null}  onClick={handleClick} id="random">
+          <li className={selected === "random" ? 'active' : null}  onClick={handleClick} id="random">
             <FontAwesomeIcon icon={faDice} />&nbsp;
             Random
           </li>
         </Link>
         <Link className="link" to="/following">
-          <li className={selected == "following" ? 'active' : null}  onClick={handleClick} id="following">
+          <li className={selected === "following" ? 'active' : null}  onClick={handleClick} id="following">
             <FontAwesomeIcon icon={faUserPlus} />&nbsp;
             Following
           </li>
         </Link>
       </ul>
-      <div class="social-icons">
-        <a href="https://github.com/tiffbouchard" target="_blank">
+      <div className="social-icons">
+        <a href="https://github.com/tiffbouchard" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faGithubSquare} />&nbsp;
         </a>
-        <a href="https://linkedin.com/in/tiffanybouchard" target="_blank">
+        <a href="https://linkedin.com/in/tiffanybouchard" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faLinkedin} />&nbsp;
         </a>
-        <a href="https://behance.net/tiffanybouchard" target="_blank">
+        <a href="https://behance.net/tiffanybouchard" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faBehanceSquare} />&nbsp;
         </a>
-        <a href="https://tiffbouchard.com" target="_blank">
+        <a href="https://tiffbouchard.com" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faExternalLinkSquareAlt} />&nbsp;
         </a>
-        <a href="https://instagram.com/tiffbouchard" targe="_blank">
+        <a href="https://instagram.com/tiffbouchard" targe="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faInstagramSquare} />&nbsp;
         </a>
       </div>

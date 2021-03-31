@@ -22,8 +22,8 @@ const Header = (props) => {
         handleSubmit={props.handleSubmit}
         />
       <div className="thumbnail-small dropdowntrigger">
-        <img src={user.images && user.images[0].url} onClick={toggleMenu}/>
-        <DropdownMenu show={show}/>
+        <img src={user.images && user.images[0].url} onClick={toggleMenu} alt="Current User"/>
+        <DropdownMenu show={show} hoverToPlay={props.hoverToPlay} setHoverToPlaySetting={props.setHoverToPlaySetting}/>
       </div>
     </header>
     );

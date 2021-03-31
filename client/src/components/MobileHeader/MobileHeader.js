@@ -21,12 +21,12 @@ const MobileHeader = () => {
     <div className="mobile-header">
       <div className="logo-cont">
         <Link to="/">
-          <img src={logo}/>
+          <img src={logo} alt="Spotify Logo"/>
           <h2>Artist Explorer</h2>
         </Link>
       </div>
       <div className="mobile-thumbnail-small dropdowntrigger">
-        <img src={user.images && user.images[0].url} onClick={toggleMenu}/>
+        <img src={user.images && user.images[0].url} onClick={toggleMenu} alt="Current User"/>
         <DropdownMenu show={show}/>
       </div>
     </div> 

@@ -9,14 +9,13 @@ import InfoCard from "../../components/InfoCard/InfoCard";
 import MusicPlayer from "../../components/MusicPlayer/MusicPlayer";
 import Modal from "../../components/Modal/Modal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRedo, faExternalLinkAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { UserContext } from '../../context/userContext';
+import { faRedo, faExternalLinkAlt, faPlusCircle, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
+import {SettingsContext} from '../../context/settingsContext';
 
 
 import "./Random.scss";
 
 const Random = () => {
-  const { user } = React.useContext(UserContext);
   const [randomArtist, setRandomArtist] = React.useState(null);  
   const [loading, setLoading] = React.useState(false);  
   const [play, setPlay] = React.useState(false);  
@@ -24,6 +23,11 @@ const Random = () => {
   const [artistDetails, setArtistDetails] = React.useState(null);  
   const [modal, setModal] = React.useState(false);  
   const [following, setFollowing] = React.useState();  
+  const { hoverToPlay } = React.useContext(SettingsContext);
+  const [playing, setPlaying] = React.useState(true);
+  const [clickedNewArtist, setClickedNewArtist] = React.useState(false);
+
+
 
   const audioEl = React.useRef(null);
   
@@ -67,6 +71,40 @@ const Random = () => {
 
   }
 
+
+  const togglePlayMusic = (event) => {
+    setClickedNewArtist(false);
+
+    if ( nowPlaying && event.target.id === nowPlaying[3]) {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(!play);
+      setPlaying(!playing);
+      
+    } else if ( (nowPlaying === null || nowPlaying[0] === null) && play === false ) {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(true);
+      setPlaying(true);
+    } else if ( (nowPlaying === null || nowPlaying[0] === null) && play === true ) {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(true);
+      setPlaying(true);
+    } else if ( play && nowPlaying && event.target.id !== nowPlaying[3]) {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(true);
+      setPlaying(true);
+    } else if ( play === false && nowPlaying && event.target.id !== nowPlaying[3]) {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(true);
+      setPlaying(true);
+    } else {
+      setNowPlaying([event.target.getAttribute("data-img"), event.target.getAttribute("data-name"), event.target.getAttribute("data-artists"), event.target.id]);
+      setPlay(true);
+      setPlaying(true);
+    }
+  }
+
+
+
   const handleFollow = async (event) => {
     const following = await followArtist(event.target.id);
     console.log(following.status)
@@ -77,7 +115,9 @@ const Random = () => {
 
   const handleClick = (event) => {
     event.stopPropagation();
-    console.log(event.target);
+    setPlaying(false);
+    setPlay(false);
+    setClickedNewArtist(true);
     getArtistDetails(event.target.id);
     setFollowing(null);
 
@@ -89,13 +129,22 @@ const Random = () => {
 
   const playMusic = (event) => {
     event.stopPropagation();
+    setPlaying(true);
+    setClickedNewArtist(false);
     setPlay(event.target.id);
     setNowPlaying([event.target.src, event.target.getAttribute("data-name"), event.target.getAttribute("data-artists")]);
+  }
+
+  const hideMusicPlayer = () => {
+    setPlaying(false);
+    setPlay(false);
+
   }
 
 
   const stopMusic = (event) => {
     event.stopPropagation();
+    setPlaying(false);
     setPlay(null);
     setNowPlaying(null);
   }
@@ -129,7 +178,9 @@ const Random = () => {
         following={following}
         handleFollow={handleFollow}
         artistDetails={artistDetails}
-        handleClick={handleClick} 
+        handleClick={handleClick}
+        clickedNewArtist={clickedNewArtist}
+        setClickedNewArtist={setClickedNewArtist}
       />}
 
       <div>
@@ -141,19 +192,19 @@ const Random = () => {
         </div>
         <div className="randomrow">
           <div className="image">
-            <img src={randomArtist.artist.images ? randomArtist.artist.images[0].url : ""}/>
+            <img src={randomArtist.artist.images ? randomArtist.artist.images[0].url : ""} alt={`${randomArtist.artist.name}`}/>
           </div>
           <div className="artistinfo">
             <div className="randomrow artist-header">
               <h1>{randomArtist.artist.name}</h1>
-              <a target="_blank" className="external-tag" href={randomArtist.artist.external_urls.spotify}>
+              <a target="_blank" className="external-tag" href={randomArtist.artist.external_urls.spotify} rel="noreferrer">
                 <FontAwesomeIcon icon={faExternalLinkAlt} />
               </a>
             </div>
             <div className="moreinfo">
               <small>{randomArtist.artist.followers.total} followers</small>
               <div className="tags">
-                {randomArtist.artist.genres.map((genre) => <small>{genre}</small>)}
+                {randomArtist.artist.genres.map((genre) => <small key={genre}>{genre}</small>)}
               </div>
 
               {randomArtist.doesFollow || following === 204 ? 
@@ -171,11 +222,11 @@ const Random = () => {
           <h2>Top Tracks</h2>
           <div className="related m-0">
             {randomArtist.topTracks.tracks.map((track) => 
-              <div>
-                 { isMobile ? 
+              <div key={track.id}>
+                 { isMobile || !hoverToPlay ? 
 
-                    track.is_playable && 
-                    <audio id={track.id} controls>
+                    track.is_playable && play && nowPlaying && nowPlaying[3] === track.id &&
+                    <audio id={track.id} autoPlay ref={audioEl} onLoadedData={() => audioEl.current.play()} onEnded={() => hideMusicPlayer()}>
                       <source src={track.preview_url} type=""/>
                     </audio>
 
@@ -188,11 +239,28 @@ const Random = () => {
                       </audio>
 
                   }
-                {track.is_playable && 
+
+
+              { isMobile || !hoverToPlay ? 
+                
+                track.is_playable && 
+                  
                 <div className="album-thumbnail">
-                  <img src={track.album.images[0].url} onMouseEnter={playMusic} onMouseLeave={stopMusic} data-name={track.name} id={track.id} data-artists={track.artists.map((artist) => artist.name)}/>
+                  <button className="play-overlay-trigger" data-img={track.album.images[0].url} data-name={track.name} data-artists={track.artists.map((artist) => artist.name)} onClick={togglePlayMusic} id={track.id}></button>
+                  <div className="play-overlay" ><FontAwesomeIcon icon={ play && nowPlaying && nowPlaying[3] === track.id ? faStop : faPlay } /></div>
+                  <img src={track.album.images[0].url} alt={`Album Cover for ${track.name}`}/>
                 </div>
+                
+                :
+                
+                  track.is_playable && 
+                  <div className="album-thumbnail">
+                    <img src={track.album.images[0].url} data-name={track.name} data-artists={track.artists.map((artist) => artist.name)} onMouseEnter={playMusic} onMouseLeave={stopMusic} id={track.id}  alt={`Album Cover for ${track.name}`}/>
+                  </div>
+                
+                
                 }
+                
               </div>
             )}
           </div>
@@ -200,9 +268,9 @@ const Random = () => {
           <h2>Related Artists</h2>
           <div className="related m-0">
             {randomArtist.related.artists.map((a) => 
-              <div>
+              <div key={a.id}>
                 <div className="thumbnail" onClick={handleClick} >
-                  <img src={a.images[0].url} id={a.id}/>
+                  <img src={a.images[0].url} id={a.id}  alt={`${a.name}`}/>
                 </div>
                 <p>{a.name}</p>
               </div>
@@ -211,7 +279,7 @@ const Random = () => {
         </div>
       </div>
 
-      <MusicPlayer nowPlaying={nowPlaying}/>
+      {playing && !clickedNewArtist && <MusicPlayer nowPlaying={nowPlaying}/>}
 
     </main> 
     );

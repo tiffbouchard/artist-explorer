@@ -18,7 +18,11 @@
     }
 }
 
-
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-top: 3px;
+}
 
 .activemenu {
     display: flex;

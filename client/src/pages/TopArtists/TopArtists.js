@@ -84,6 +84,7 @@ const TopArtists = () => {
       <div className="card-container">
       {artists && artists.items.map((a) => 
           <Card 
+            key={a.id}
             id={a.id}
             handleClick={handleClick} 
             image={a.images[0].url} 

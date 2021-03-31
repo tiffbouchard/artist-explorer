@@ -12,9 +12,10 @@ import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
 import MobileHeader from "../../components/MobileHeader/MobileHeader";
 import Modal from "../../components/Modal/Modal";
-import { getSearch, token } from "../../utils/spotifyService";
+import { getSearch } from "../../utils/spotifyService";
 import { UserContext } from '../../context/userContext';
 import Loader from '../../components/Loader/Loader';
+import { SettingsContext } from '../../context/settingsContext';
 
 
 import './Layout.scss';
@@ -23,6 +24,9 @@ import './Layout.scss';
 const Layout = (props) => {
     const { user }= React.useContext(UserContext);
     const { history } = props;
+
+    const [ hoverToPlay, setHoverToPlay ] = React.useState(true);
+    const value = {  hoverToPlay };
 
     const [searchQuery, setSearchQuery] = React.useState();
     const [results, setResults] = React.useState();
@@ -33,6 +37,12 @@ const Layout = (props) => {
     const closeModal = () => {
       setModal(false);
     }
+
+
+    const setHoverToPlaySetting = (pref) => {
+      setHoverToPlay(pref);
+    }
+
   
     const handleChange = async (event) => {
       setLoading(true);
@@ -55,7 +65,7 @@ const Layout = (props) => {
     }
 
 
-    if (!token) {
+    if (!user) {
       return (
         <Loader/>
       )
@@ -63,46 +73,50 @@ const Layout = (props) => {
 
     return (
       <>
-      <MobileHeader/>
-      {modal && <Modal closeModal={closeModal} title={`Welcome back, ${user.display_name}!`} type="welcome"/>}
-      <div className="row">
-          <Sidebar
-            searching={searching}
-          />
-          <div className="main">
-            <Header 
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
+      <SettingsContext.Provider value={value}>
+        <MobileHeader/>
+        {modal && <Modal closeModal={closeModal} title={`Welcome back, ${user.display_name}!`} type="welcome"/>}
+        <div className="row">
+            <Sidebar
+              searching={searching}
             />
-              <Switch>
-                <Route 
-                  exact path="/"
-                  render={() => <TopArtists/>}
-                /> 
-                <Route 
-                  exact path="/top"
-                  render={() => <TopArtists/>}
-                /> 
-                <Route 
-                  exact path="/following"
-                  render={() => <Following/>}
-                /> 
-                <Route 
-                  exact path="/random"
-                  render={() => <Random/>}
-                /> 
-                <Route 
-                exact path="/search"
-                render={() => 
-                <SearchResults
-                  loading={loading}
-                  results={results}
-                  searchQuery={searchQuery}
-                />}
-                /> 
-              </Switch>
+            <div className="main">
+              <Header
+                hoverToPlay={hoverToPlay}
+                setHoverToPlaySetting={setHoverToPlaySetting}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+              />
+                <Switch>
+                  <Route 
+                    exact path="/"
+                    render={() => <TopArtists/>}
+                  /> 
+                  <Route 
+                    exact path="/top"
+                    render={() => <TopArtists/>}
+                  /> 
+                  <Route 
+                    exact path="/following"
+                    render={() => <Following/>}
+                  /> 
+                  <Route 
+                    exact path="/random"
+                    render={() => <Random/>}
+                  /> 
+                  <Route 
+                  exact path="/search"
+                  render={() => 
+                  <SearchResults
+                    loading={loading}
+                    results={results}
+                    searchQuery={searchQuery}
+                  />}
+                  /> 
+                </Switch>
+            </div>
           </div>
-        </div>
+      </SettingsContext.Provider>
       </>
     );
 }

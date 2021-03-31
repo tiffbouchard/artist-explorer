@@ -1,11 +1,19 @@
+import React from 'react';
 import { token } from "../../utils/spotifyService";
 import Layout from "../../pages/Layout/Layout"
-import LoginPage from "../../pages/LoginPage/LoginPage"
+import LoginPage from "../../pages/LoginPage/LoginPage";
 
-const App = (props) => {  
+const App = (props) => { 
+  
+  const [accessToken, setAccessToken] = React.useState('');
+
+  React.useEffect(() => {
+    setAccessToken(token);
+  }, []);
+
   return (
     <>
-    {token ? <Layout {...props}/> : <LoginPage/> }
+    {accessToken ? <Layout {...props}/> : <LoginPage/> }
     </>
   );
 }

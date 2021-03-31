@@ -33,7 +33,7 @@ const Modal = (props) => {
               </div>
             </div>
             <p>
-              Found your starting point? Click on your favourite artist to find similar artists and listen to their top tracks.  Continue clicking on artists until you find what you're looking for! <b>Tracks plays on hover to make music discovery super fast.</b>
+              Found your starting point? Click on your favourite artist to find similar artists and listen to their top tracks.  Continue clicking on artists until you find what you're looking for! <b>Tracks play on hover to make music discovery super fast. If this is annoying to you, go ahead and click your profile image in the top right and <i>"Disable hover to play".</i></b>
             </p>
 
           </div>
