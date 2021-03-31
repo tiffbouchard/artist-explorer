@@ -5,12 +5,9 @@
 
 ## Table of Contents
 - [About](#about)
-- [Learning Outcomes](#learning-outcomes)
-- [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Design](#design)
 - [Preview](#preview)
-- [Getting Started](#getting-started)
+- [Demo](#demo)
 - [Next Steps](#next-steps)
 
 ## Tech Stack
@@ -21,13 +18,10 @@
 
 ## Preview
 
-### Browse
 <img src="/images/demo_one.png" alt="home"/>
 
-### Checkout
 <img src="/images/demo_three.png" alt="random"/>
 
-### Search
 <img src="/images/demo_two.png"  alt="related"/>
 
 ## Demo 
