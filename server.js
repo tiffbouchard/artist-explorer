@@ -45,22 +45,6 @@ app.get('/', function (req, res) {
   res.render(path.resolve(__dirname, 'client/build/index.html'));
 });
 
-app.get('/search', function (req, res) {
-  res.render(path.resolve(__dirname, 'client/build/index.html'));
-});
-
-app.get('/top', function (req, res) {
-  res.render(path.resolve(__dirname, 'client/build/index.html'));
-});
-
-app.get('/random', function (req, res) {
-  res.render(path.resolve(__dirname, 'client/build/index.html'));
-});
-
-app.get('/following', function (req, res) {
-  res.render(path.resolve(__dirname, 'client/build/index.html'));
-});
-
 
 app.get('/login', function(req, res) { 
   var state = generateRandomString(16);
@@ -168,12 +152,12 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
+// All remaining requests return the React app, so it can handle routing.
+app.get('/*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 8888;
-// All remaining requests return the React app, so it can handle routing.
-app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'client/public', 'index.html'));
-});
 
 
 console.log(`Listening on ${PORT}`);
