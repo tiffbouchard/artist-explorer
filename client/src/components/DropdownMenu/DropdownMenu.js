@@ -23,7 +23,13 @@ const Dropdown = (props) => {
       <small>{user.display_name}</small>
       <small>{user.email}</small>
       <div className="form-row">
-        <input disabled={isMobile && true} checked={isMobile && true} type="checkbox" name="pref-one" onClick={handleSelect}/>
+        {isMobile ?
+        
+        <input disabled={true} checked={true} type="checkbox" name="pref-one" onClick={handleSelect}/>
+        :
+        <input type="checkbox" name="pref-one" onClick={handleSelect}/>
+
+        }
         <small><label htmlFor="pref-one">Disable hover to play</label></small>
       </div>
       <button onClick={logout}>

@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
@@ -12,7 +13,7 @@ import Random from "../Random/Random";
 import SearchResults from "../SearchResults/SearchResults";
 import MobileHeader from "../../components/MobileHeader/MobileHeader";
 import Modal from "../../components/Modal/Modal";
-import { getSearch } from "../../utils/spotifyService";
+import { getSearch, token } from "../../utils/spotifyService";
 import { UserContext } from '../../context/userContext';
 import Loader from '../../components/Loader/Loader';
 import { SettingsContext } from '../../context/settingsContext';
@@ -90,28 +91,30 @@ const Layout = (props) => {
                 <Switch>
                   <Route 
                     exact path="/"
-                    render={() => <TopArtists/>}
+                    render={() => token ? <TopArtists/> : <Redirect to="/"/>}
                   /> 
                   <Route 
                     exact path="/top"
-                    render={() => <TopArtists/>}
+                    render={() => token ? <TopArtists/> : <Redirect to="/"/>}
                   /> 
                   <Route 
                     exact path="/following"
-                    render={() => <Following/>}
+                    render={() => token ? <Following/> : <Redirect to="/"/>}
                   /> 
                   <Route 
                     exact path="/random"
-                    render={() => <Random/>}
+                    render={() => token ? <Random/> : <Redirect to="/"/>}
                   /> 
                   <Route 
                   exact path="/search"
-                  render={() => 
+                  render={() => token ?
                   <SearchResults
                     loading={loading}
                     results={results}
                     searchQuery={searchQuery}
-                  />}
+                  /> :
+                  <Redirect to="/"/>
+                  }
                   /> 
                 </Switch>
             </div>
